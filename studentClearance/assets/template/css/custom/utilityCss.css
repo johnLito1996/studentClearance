@@ -1,0 +1,28 @@
+.img-circle2{
+
+	width: 20%;
+	height: 20%;
+	border-radius: 2px;
+	box-shadow: 2px 2px 4px #888888;
+}
+
+.main{
+	text-align: center;
+}
+
+.userProfile{
+
+    width: 50%;
+    margin:auto;
+}
+
+.userName{
+	font-family: 'Segoe UI', 'arial';
+	font-size: 20px;
+	font-weight: bold;
+	letter-spacing: 2px;
+}
+
+th{
+	text-align: center;
+}

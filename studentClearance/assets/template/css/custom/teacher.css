@@ -1,0 +1,13 @@
+.cusInput{
+
+	border-top:none;
+	border-left:none;
+	border-right:none;
+	border-bottom: thin solid #926464;
+	text-transform: capitalize;
+}
+
+.statusBtn{
+
+	color:#390606 !important;
+}
