@@ -7,18 +7,18 @@ class AdminTeacher extends CI_Controller
 	function __construct()
 	{
 		parent::__construct();
+
+		//admin Library
 		$this->load->library('AdminLib');
+		// Setting of the App
 		$this->load->model('Admin/SettingModel', 'setting');
+		// load the database()
+		$this->load->database();
+
 	}
 
 	public function index(){
 
-		//login
-		//$this->load->view('adminview');
-		/*echo "<pre>";
-		//print_r($_SERVER);
-		echo base_url();
-		echo "</pre>";*/
 		$data['scPic'] = $this->setting->schoolPic();
 		$data['imgPath'] = base_url();
 		$this->load->view('Admin/teacherPane', $data);
@@ -32,7 +32,6 @@ class AdminTeacher extends CI_Controller
 
 	//new teachID
 	public function newTeachId(){
-		$this->load->database();
 		//$res = $out[0]['Teacher_ID'];		
 
 		$sql = "call TeachlastTID()"; 
@@ -51,9 +50,7 @@ class AdminTeacher extends CI_Controller
 	//teacherList
 	public function ajax_teach_list(){
 		
-		$this->load->database();
-
-		$this->db->order_by("Teacher_First_Name", "ASC");
+		$this->db->order_by("Teacher_Last_Name", "ASC");
 		$Q = $this->db->get_where($this->tbteacher, array('Status'=> 'Active'));
 
 		echo json_encode(['data' => $Q->result()]);

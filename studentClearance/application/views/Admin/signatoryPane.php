@@ -16,7 +16,7 @@
             background-repeat: no-repeat; 
 /*             background-size: cover;
              */
-             background-size: 150px;
+             background-size: 100px; /*150*/
 /*             background-position: center;
          */
             background-position: top-left;        
@@ -55,7 +55,7 @@
                                 <div class="panel-body">
                                 <button class="btn btn-primary col-md-push-1 customBtn" data-toggle="modal" href="#myModal" data-backdrop="static" data-keyboard="false">
                                     <i class="fa fa-plus"></i>
-                                    Add Teacher
+                                    Add Assignatory
                                 </button>
 
                                     <table class="table table-striped" cellpadding="10">
@@ -184,7 +184,6 @@
                             getAssigDat();
                         }
                     });
-
                     $prnt.fadeOut("slow");    
                 }    
             });

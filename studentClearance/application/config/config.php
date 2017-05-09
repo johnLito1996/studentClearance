@@ -23,9 +23,9 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 | a PHP script and you can easily do that on your own.
 |
 */
-$config['base_url'] = 'http://localhost/studentclearance/';
-//$config['base_url'] = 'http://192.168.0.103/studentclearance/';
-//192.168.0.103
+//$config['base_url'] = 'http://localhost/studentclearance/';
+$config['base_url'] = 'http://192.168.43.216/studentclearance/';
+
 /*
 |--------------------------------------------------------------------------
 | Index File

@@ -4,6 +4,15 @@
     <meta charset="UTF-8">
     <title> Admin | Section </title>
   <?php include_once('static/head.php'); ?>
+  
+  <!-- custom datatables -->
+  <link rel="stylesheet" type="text/css" href="<?= base_url('assets/custom/datatablesNew/css/dataTables.bootstrap.css'); ?>">
+
+  <link rel="stylesheet" type="text/css" href="<?= base_url('assets/custom/datatablesNew/css/jquery.dataTables.min.css'); ?>">
+
+  <!-- custom css below -->
+  <link rel="stylesheet" type="text/css" href="<?= base_url('assets/template/css/custom/teacher.css'); ?>">
+
     <style type="text/css">
         .chk{
             border:thin solid blue;
@@ -14,12 +23,35 @@
             background-repeat: no-repeat; 
 /*             background-size: cover;
              */
-             background-size: 150px;
+             background-size: 100px;
 /*             background-position: center;
          */
             background-position: top-left;        
         }
 
+        /* datatables overwrite */
+        .dataTables_filter{
+            margin-right: 30% !important;
+        }
+
+        /* capitalize data */
+        .cpt{
+            text-transform: capitalize;
+        }
+
+        /* uppercase fld */
+        .upTxt{
+          text-transform: uppercase;
+        }
+        /* scrolling od section subjects */
+        .scroll{ 
+            overflow: auto;
+            margin-left: 13px;
+        }
+
+        .hideIt{
+          display: none;
+        }
     </style>
 </head>
 <body class="skin-black">
@@ -32,111 +64,139 @@
             <!-- Right side column. Contains the navbar and content of the page -->
             <div class="right-side">
 
-                <section class="content">
+                <section  on class="content background container">
                     
                     <div class="row">
-                        <div class="col-xs-12">
+<!--                         <div class="col-xs-12">
+                         -->                        
+                         <div class=" col-md-offset-1 col-md-3 col-lg-3">
                             <div class="panel">
                                 <header class="panel-heading">
                                     <b> Section </b>
-
+                                    <button type="button" class="btn btn-primary col-md-push-1 customBtn" onclick="addSection()"> <span class="fa fa-plus" id="btnAddSec"></span> &nbsp Add Section </button>
                                 </header>
-
-                                <div class="panel-body table-responsive">
-                                <button type="button" class="btn btn-primary col-md-push-1 customBtn"> <span class="fa fa-plus"></span> &nbsp Add Section </button>
-
-                                    <div class="box-tools m-b-15">
-                                        <div class="input-group">
-                                            <input type="text" name="table_search" class="form-control input-sm pull-right" style="width: 150px;" placeholder="Search"/>
-                                            <div class="input-group-btn">
-                                                <button class="btn btn-sm btn-default"><i class="fa fa-search"></i></button>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    
-                                    <!-- section table -->
-                                    <table class="table table-hover" id="tblSec1">
-                                    </table>
-
-                                    <!-- pagination -->
-                                    <div class="pagination pagination-sm pull-right">
-                                        <ul class="pagination">
-                                            <li id="minus"><a href="#">«</a></li>
-                                            <li><a href="#"> &nbsp </a></li>
-                                            <li id="plus"><a href="#">»</a></li>
-                                        </ul>
-                                    </div>
-                                </div><!-- /.box-body -->
-                                
-                            </div><!-- /.box -->
+                                <!-- /.box-body -->
+                            </div>
+                            <!-- /.box -->
                         </div>
                     </div>
-                <!-- row end -->
-            </div>
-        </div><!-- ./wrapper -->
-    </section><!-- ./content -->
-  </div><!-- ./right-side -->
+                    <!-- ./row end -->
+
+                    <div class="row">                    
+                         <div class="col-md-11 col-lg-11" style="margin-top: 7px;">
+                            <div class="panel">
+                                <div class="panel-body">
+                                    <table class="table table-hover" id="tblSec1">
+                                    </table>
+                                </div>
+                                <!-- /.box-body -->
+                            </div>
+                            <!-- /.box -->
+                        </div>
+                    </div>
+                    <!--row2-->
+
+                    <!--wait until the student section is now ok -->
+                    <div class="row">
+                        <div class="col-md-8 col-lg-8">
+                           <section class="panel">
+                               <header class="panel-heading">
+                                  <b> <span class="fa fa-list"></span> &nbsp Clearance Panel </b>
+                               </header>
+
+                           <div class="panel-body table-responsive">
+
+                              <div class="row">
+
+                              </div>
+
+                              <form id="frmStudRemarks" name="frmStudRemarks" method="POST">
+                                <table class="table table-hover" border="1">
+
+                                <div id="divRmkStudents">
+                                    <div class="row">
+                                      <div class="col-sm-12">
+                                          <p> 
+                                          <b style="color: #941518;border-bottom: thin solid;" id="secName">section</b> </p>
+                                      </div>
+                                    </div>
+
+                                  <div class="row">
+                                    
+                                    <div class="col-sm-6">
+                                      <button class="btn btn-info pull-right" title="Search via Student" id="btnSecStuds" onclick="secStud()">
+                                      <span class="fa fa-user fa-md"> </span> &nbsp  Individual </button>
+                                    </div>
+
+                                    <div class="col-sm-6">
+                                      <button class="btn btn-warning" style="display: inline;" title="Search via Subjects" id="btnSecSubs" onclick="getsecSub()"><span class="fa fa-user-plus"></span> &nbsp Subjects </button>
+                                    </div>
+                                  </div>
+                                    <br>
+
+                                    <div class="row" id="selectStudentDrop">
+                                      <div class="col-sm-12">
+                                      <label style="display: inline;" id="lblSearch"> Student Name: </label>
+                                      <select name="sectionStudents" id="secStuds">
+                                        <option value="sample"> Click Section </option>
+                                        <option value="sample"> Click Section </option>
+                                        <option value="sample"> Click Section </option>
+                                        <option value="sample"> Click Section </option>
+                                      </select>
+                                      </div>
+                                    </div>
+
+                                </div> <!--ajaxDiv-->
+                                    <hr>
+                                      <thead>
+                                        <tr>
+                                          <th> <b id="titleChange">Remarks List</b> </th>
+                                          <th> <b>Category</b> </th>
+                                          <th style="text-align: center;"> <b>Remarks</b> </th>
+                                        </tr>
+                                      </thead>
+
+                                      <tbody id="studListRemarks">
+                                        <tr>
+                                          <td> sample subjects 2</td>
+                                          <td> Category </td>
+                                          <td> 
+                                              <div class="col-sm-4"><input type="radio" name="Status" id="statOK"> OK </div>
+                                              <div class="col-sm-4"><input type="radio" name="Status" id="statINC"> INC </div>
+                                              <div class="col-sm-4"><input type="radio" name="Status" id="statDrp"> DROP </div>
+                                          </td>
+                                        </tr>
+                                  </tbody>
+                                 
+                              </table>
+                               </form>  
+                                <button type="submit" class="btn btn-primary col-md-push-1 customBtn pull-right" style="background-color:#39435c; margin-top:2%;" onclick="editStudRemarks()"> <span class="fa fa-save fa-sm"></span> &nbsp Save Remarks </button>
+
+                            </div>
+
+
+                           </section>
+                            <!-- ./panel -->
+                        </div>
+                    </div> 
+                    <!-- ./row -->
+                </section><!-- ./content -->
+            </div><!-- ./right-side -->
+    </div>
+    <?php include('formModals/addSection.php'); ?>
+    <!-- ./frmModal -->
+
     <?php include_once('static/foot.php') ?>
     <?php include_once('static/adminjs.php'); ?>
     
-    <script>
-    //cacheVar
-    var $tableSec1 = $("#tblSec1");
+    <!-- sectionRemarks Process -->
+    <?php include_once('sectionJSPrt/sectionRemarks_JS.php'); ?>
 
-    //ajaxVar
-    var url;
-    var Currntlimit = 5;
-    function getTableSec(limit = 5){            
-        Currntlimit = limit;
-        url = "<?= site_url('index.php/AdminSection/TableSec'); ?>/"+limit;
-        $.ajax({
-            url: url,
-            type: 'GET',
-            dataType: 'html',
-/*                data: {param1: 'value1'},
-*/            
-            timeOut:2000,
-            beforeSend:function(){
-                //alert('Loading...');
-                $tableSec1.html("<center> <h3>Loading ...</h3> </center>");
-            }
-        })
-        .done(function(response) {
-            console.log("success");
-            $tableSec1.html(response);
-        })
-        .fail(function(res) {
-             console.log(res, "error");
-        });
-    }
-
-    // app var for init()
-    var app = {
-
-        //kada pag call ko kadi function na adi mig DagDag ahh limit niya
-        init:function(){
-            
-            //pagination
-            $("li#minus").unbind().click(function(){
-                //alert("Ajax + 5 record Row");
-                $tableSec1.empty();
-                getTableSec(Currntlimit + 5);
-            }); 
-
-            $("li#plus").unbind().click(function(){
-                //alert("Ajax - 5 record Row");
-                $tableSec1.empty();
-                getTableSec(Currntlimit - 5);
-            });
-            
-        },
-    }
-
-
-    $(document).ready(function() {
-        getTableSec();
-        app.init();
-    });
-    </script>
+    <!-- custom for datatables -->
+    <script src="<?= base_url('assets/custom/datatablesNew/js/jquery.dataTables.min.js'); ?>"></script>
+    <script src="<?= base_url('assets/custom/datatablesNew/js/dataTables.bootstrap.js'); ?>"></script>
+    
+    <!-- section function currently -->
+    <?php include_once('sectionJSPrt/sectionFunctionJs.php') ?>
 </body> 
 </html>

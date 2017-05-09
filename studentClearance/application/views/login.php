@@ -63,7 +63,7 @@
                                       <div class="form-group">
                                           <label class="col-lg-2 col-sm-2 control-label">Username</label>
                                           <div class="col-lg-5">
-                                              <input type="text" class="form-control" id="usrName" name="Username" placeholder="firstname_lastname" required>
+                                              <input type="text" class="form-control" id="usrName" name="Username" placeholder="Username" required>
                                               <p class="help-block"><span class="fa fa-warning fa-sm"></span> replace (<i>space</i>) with (_)</p>
                                           </div>
                                       </div>
@@ -83,10 +83,10 @@
                                           <label class="radio-inline">
                                             <input type="radio" name="usrType" value="admin" checked>Admin
                                           </label>
-                                          <label class="radio-inline hideIt">
+                                          <label class="radio-inline">
                                             <input type="radio" name="usrType" value="teacher">Teacher
                                           </label>
-                                          <label class="radio-inline hideIt">
+                                          <label class="radio-inline">
                                             <input type="radio" name="usrType" value="student">Student
                                           </label>
                                         <hr>

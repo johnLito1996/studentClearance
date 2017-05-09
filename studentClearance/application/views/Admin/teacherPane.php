@@ -16,7 +16,7 @@
             background-repeat: no-repeat; 
 /*             background-size: cover;
              */
-             background-size: 150px;
+             background-size: 100px;
 /*             background-position: center;
          */
             background-position: top-left;        

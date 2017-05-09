@@ -1,4 +1,5 @@
 <?php 
+// not in use
 if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 
 	class Datatables extends CI_Model{

@@ -6,7 +6,7 @@ if ( ! defined('BASEPATH')) exit('No direct script access allowed');
  	
  	function __construct()
  	{
- 		//constructor
+ 		// ANy constructor
  	}
 
  	/* viewinf specific set of data*/
@@ -17,7 +17,7 @@ if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 		echo "</pre>";
 	}
 
-
+	// donot url_encode data in URL
 	public function clean($str) {
 		$str = @trim($str);
 		if(get_magic_quotes_gpc()) {

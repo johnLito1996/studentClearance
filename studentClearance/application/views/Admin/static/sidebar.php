@@ -36,8 +36,4 @@
         </ul>
     </section>
     <!-- /.sidebar -->
-
-    <ul id="secList" class="chk" style="margin:15px; background-color: #F2E5E5;">
-        <li>WAit in the Section panel <br> and make this work :)</li>
-    </ul>
 </aside>
