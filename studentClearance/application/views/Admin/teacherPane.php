@@ -25,6 +25,8 @@
         .scroll{
             height: 450px; 
             overflow: auto;
+            margin-left: -37px;
+            margin-right: 5px;>
         }
 
         .list-group-item:hover{
@@ -59,13 +61,14 @@
 
                                 <div class="panel-body">
                                 <ul class="list-group teammates scroll">
+   
                                     <!-- dynamic ul -->
                                 </ul>
                                 </div>
 
                                 <div class="panel-footer bg-white">
                                     <!-- <span class="pull-right badge badge-info">32</span> -->
-                                    <button class="btn btn-primary btn-addon btn-sm" data-toggle="modal" href="#myModal" data-backdrop="static" data-keyboard="false">
+                                    <button class="btn btn-primary btn-addon btn-sm" onclick="addTeacher()">
                                         <i class="fa fa-plus"></i>
                                         Add Teacher
                                     </button>
@@ -93,6 +96,7 @@
         $("#hrefTeacher").addClass('active');
 
     //$.cache method
+        var $Modal = $("#myModal");
         var $teachForm = $("#teachForm");
         var $Teacher_ID = $("#teachID");
         var $Teacher_First_Name = $("#tFname");
@@ -108,6 +112,7 @@
         //ajax variables
         var url;
         var base = $("#imgPath").text();
+        var method;
 
         //current teachID
         function TeachlastId(){
@@ -141,8 +146,8 @@
                                         "<li class='list-group-item'>"+
                                             "<a disabled>"+
                                             "<img src="+usrImg+"  width='50' height='50' id='teachPic' alt='User'></a>"+
-                                                "<button class='pull-right label label-warning inline m-t-15 statusBtn' id='teachDel' data-tNum='"+obj.Teacher_ID+"' title='Click to Deactivate'>Active</button>"+
-                                                "<a href='#' data-toggle='collapse' data-target='#"+dataCol+"'>"+fullName+"</a>"+
+                                                "<button class='pull-right label label-warning inline m-t-15 statusBtn' id='teachEdit' data-tNum='"+obj.Teacher_ID+"' title='Click to Edit Teacher'> <span class='fa fa-sm fa-pencil-square-o'></span> Edit </button>"+
+                                                "<a href='#' data-toggle='collapse' data-target='#"+dataCol+"' title='View Details'>"+fullName+"</a>"+
                                                 "<div id='"+dataCol+"' class='collapse'>"+
                                                 "<br>"+
                                                 "<p><label> ID : </label>"+obj.Teacher_ID+"</p>"+
@@ -158,30 +163,65 @@
             });
         }
 
+
+//add new Teacher 
+        function addTeacher() {
+            method = 'add';
+           $teachForm[0].reset();
+           $Modal.modal({ 
+                backdrop:"static",
+                keyboard:false
+           });
+           $("h4.modal-title").text("New Teacher");
+           TeachlastId();
+        }
         // saving teachData
         function saveData(){
 
-            //default url is add
-            var url = "<?= site_url('index.php/AdminTeacher/saveTeach') ?>/"+method;        
-            var frmData = $("form#teachForm").serializeArray();
+            if(method == 'add'){
+                var url = "<?= site_url('index.php/AdminTeacher/saveTeach') ?>/"+method;        
+                var frmData = $("form#teachForm").serializeArray();
 
-            $.ajax({
-                url:url,
-                type:'POST',
-                dataType:'html',
-                data:frmData,
-                success:function(response){
-                    //console.log(response);
-                    $teachForm[0].reset();
-                    TeachlastId();
-                    alert('Data has successfully added!');
-                    $teachList.empty();
-                    teachListView();
-                },
-                error:function(reQuest, errType, errMsg){
-                    alert('Error:' + errType + 'Message:' + errMsg);
-                }
-            })
+                $.ajax({
+                    url:url,
+                    type:'POST',
+                    dataType:'html',
+                    data:frmData,
+                    success:function(response){
+                        //console.log(response);
+                        $teachForm[0].reset();
+                        TeachlastId();
+                        alert('Data has successfully added!');
+                        $teachList.empty();
+                        teachListView();
+                    },
+                    error:function(reQuest, errType, errMsg){
+                        alert('Error:' + errType + 'Message:' + errMsg);
+                    }
+                })
+            }
+            else{
+
+                //alert(method);
+
+                var url = "<?= site_url('index.php/AdminTeacher/saveTeach') ?>/"+method;
+                var data = $teachForm.serializeArray();
+                data.pop();
+                $.post(url, data, function(data, textStatus, xhr) {
+                    
+                    data = $.parseJSON(data);
+
+                    if (data.status) {
+                        alert('Teaccher Record Updated');
+                        //teachListView();
+                        window.location.reload();
+                    }
+                    else{
+                        alert('Teacher Record not Updated');
+                    }
+                });
+            }
+            
         }
 
         //document ready
@@ -191,29 +231,41 @@
             TeachlastId();
             teachListView();
             //for Deactivation Teacher
-            $("ul.teammates").on('click', 'button#teachDel', function(event) {
+            $("ul.teammates").on('click', 'button#teachEdit', function(event) {
                 event.preventDefault();
 
                 var id = $(this).data('tnum');
-                var url = "<?= site_url('index.php/AdminTeacher/delTeachList'); ?>/"+id;
-                //var $ulCurrent = $(this).closest('ul#tActive');
-                // if nag true  e lolocate ko si closest na ul niya then fadeOut(1000)
-                $.ajax({
-                    url: url,
-                    type: 'GET',
-                    dataType: 'JSON'
-                })
-                .done(function(response) {
+                //var url = "<?= site_url('index.php/AdminTeacher/delTeachList'); ?>/"+id;
+                var url = "<?= site_url('index.php/AdminTeacher/getTeacherDat') ?>/"+id;
+                method = 'edit';
+                   $teachForm[0].reset();
+                   $Modal.modal({ 
+                        backdrop:"static",
+                        keyboard:false
+                   });
+                   $("h4.modal-title").text("Update Teacher");
+                   $Teacher_ID.val(id);
 
-                    if (response.status) {
-                        $teachList.empty();
-                        teachListView();
-                    }
-                })
-                .fail(function(response) {
-                    console.log("error in ajaxDelete");
-                });
-                
+                   $.get(url, function(tDat){
+                        tDat = $.parseJSON(tDat);
+
+                        var teachDat = tDat.teachDAt[0];
+                        $Teacher_First_Name.val(teachDat.Teacher_First_Name);
+                        $Teacher_MiddleInitial.val(teachDat.Teacher_MiddleInitial);
+                        $Teacher_Last_Name.val(teachDat.Teacher_Last_Name);
+                        
+                        if (teachDat.Gender == "Male") {
+                            $("#genderM").prop('checked', 'true')
+                        }
+                        else{
+                            $("#genderFM").prop('checked', 'true')
+                        }
+
+                        $Department.val(teachDat.Department);
+                        $Status.val(teachDat.Status);
+
+                   })
+                    
             });
 
         });

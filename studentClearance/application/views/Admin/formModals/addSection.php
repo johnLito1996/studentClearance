@@ -98,7 +98,7 @@
 	                  <div class="form-group">
 	                      
 	                      <div class="row">
-	                      	<div class="col-md-push-1 col-sm-4">
+	                      	<div class="col-md-push-1 col-sm-10">
 		                      <label>Subject List:</label>
 		                      <select name="Subject_Code" id="Subject_Code" class="form-control cusInput">
 			              	  </select>

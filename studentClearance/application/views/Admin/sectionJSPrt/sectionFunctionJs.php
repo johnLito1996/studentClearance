@@ -193,7 +193,8 @@
             //console.log(data);
             $.each(data.data, function(i, obj){
               var subCode = obj.Subject_Code;
-              var opt = '<option value='+subCode+' title="'+obj.Subject_Description+'">'+subCode+'</option>';
+              var subDesc = obj.Subject_Description;
+              var opt = '<option value='+subCode+' title="'+subDesc+'">'+subDesc+'</option>';
               $Subject_Code.append(opt);
             });
           });
@@ -245,6 +246,12 @@
             url = "<?= site_url('index.php/AdminSection/saveSection'); ?>/add";
             $.post(url, data, function(response){
               response = $.parseJSON(response);
+              if(response.status == 'duplicate'){
+                 alert("DATA ERROR !! \n Section Code must be unique.");
+
+                 return;
+              }
+
               if(response.status){
                 alert('Section Successfully Added!');
                 $FormSec[0].reset();

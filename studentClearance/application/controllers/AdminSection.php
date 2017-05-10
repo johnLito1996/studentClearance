@@ -49,7 +49,8 @@ class AdminSection extends CI_Controller {
 	        }
 	  }
 
-		public function ajax_sec_list(){
+//datatables section list
+	public function ajax_sec_list(){
 
 		$list = $this->thisModel2->get_dTables_sec();
 		$data = array();
@@ -145,9 +146,15 @@ class AdminSection extends CI_Controller {
 	public function saveSection($method)
 	{
 
+		$this->form_validation->set_rules('Section_code', 'Section Code', 'is_unique[tbsection.Section_code]');
+			if ($this->form_validation->run() == false) {
+				//echo 'Duplicate Section Code';
+				echo json_encode(['status' => 'duplicate']);
+				exit();
+			}
+
 		if ($method == 'add') {
 			
-			// get the individual value of subjects $_POST[index]
 			$subjects = explode(',', $_POST['subjects'][0]);
 
 			$Q_SecSub;

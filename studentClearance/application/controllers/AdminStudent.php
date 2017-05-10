@@ -8,6 +8,7 @@ class AdminStudent extends CI_Controller {
 		parent::__construct();
 		$this->load->library('AdminLib');
 		$this->load->model('Admin/SettingModel', 'setting');
+		$this->load->model('student/StudentModel', 'studentModel');
 	}
 
 	// checking the data
@@ -36,8 +37,68 @@ class AdminStudent extends CI_Controller {
 		echo json_encode(['data' => $this->adminlib->getAdminDat()]);
 	}
 
+// datatable students
+	public function getStudentList()
+	{
+		//studentModel
+		$list = $this->studentModel->get_dTables_list_students();
+		$data = array();
+/*		$no = $_POST['start'];
+*/
+		$no = 0;
+			/*
+'Section_code', 'Track', 'Strand', 'Adviser', 'Room_Number'
+			*/
+		foreach ($list as $students) {
+
+			//decodeData
+			$no = $no + 1;
+
+			$row = array();
+
+			$LRN = $students->LRN_number;
+			$row[] = $LRN;
+			$row[] = $this->decodeData(ucfirst($students->Last_Name));
+			$row[] = ucfirst($students->First_Name);
+			$row[] = ucfirst($students->Initial);
+			$row[] = $students->Gender;
+			$row[] = $students->Status;
+			$row[] = $students->Section_Code;
+			$row[] = '<button type="button" class="btn btn-sm btn-warning" title="View Details" onclick="editStudent('."'".$LRN."'".')" ><span class="fa fa-pencil-square-o"></span> Edit </button>&nbsp';
+			
+			$data[] = $row;
+
+		}//e_f_each
+
+		$output = array(
+
+				"draw" => $_POST['draw'],//key at the array POST name draw
+				"recordsTotal" => $this->studentModel->count_all_students(),
+				"recordsFiltered" => $this->studentModel->count_filtered_students(),
+				"data" => $data
+			);
+
+		echo json_encode($output);
+		
+	}
+
+
+// fetching student data to be editid
+	public function getStudentdata($LRN)
+	{
+		$Q = $this->db->get_where("tbenrolled_query", array('LRN_number' => $LRN));
+
+		echo json_encode(['dat' => $Q->result()]);
+	}
+
+
+// saving and editing student
 	public function saveStudent($method)
 	{
+
+		$status = $_POST['Status'];
+		unset($_POST['Status']); // remove the status in post
+
 		$crntLRN = $_POST['LRN_Number'];
 		$crntsecCode = $_POST['Section_Code'];
 
@@ -93,7 +154,7 @@ class AdminStudent extends CI_Controller {
 				$sQL = "INSERT INTO `tbstudent_subject`(`Section_Code`, `LRN_Number`, `Subject_Signatory_Code`, `Status`, `Category`) VALUES ((?), (?), (?), (?),(?))";
 
 //tbsubject_stud
-				$addSubjects = $this->db->query($sQL, [$crntsecCode, $crntLRN, $crntsubCode, '', $crntsubCategory]);
+				$addSubjects = $this->db->query($sQL, [$crntsecCode, $crntLRN, $crntsubCode, 'INC', $crntsubCategory]);
 			}
 			//$this->chkData($secSub);
 
@@ -105,7 +166,7 @@ class AdminStudent extends CI_Controller {
 				$sQL = "INSERT INTO `tbstudent_subject`(`Section_Code`, `LRN_Number`, `Subject_Signatory_Code`, `Status`, `Category`) VALUES ((?), (?), (?), (?),(?))";
 
 //tbsubject_stud
-				$addSignatory = $this->db->query($sQL, [$crntsecCode, $crntLRN, $crntSignatory, '', $crntsigCategory]);
+				$addSignatory = $this->db->query($sQL, [$crntsecCode, $crntLRN, $crntSignatory, 'INC', $crntsigCategory]);
 			}
 			//$this->chkData($sigNatoryList);
 
@@ -113,7 +174,7 @@ class AdminStudent extends CI_Controller {
 			$studentEnrollDat = array(
 				'LRN_number' => $crntLRN,
 				'Section_Code' => $crntsecCode,
-				'Status' => 'Enrolled'
+				'Status' => $status
 				);
 			$enrollStud = $this->db->insert('tbenrolled', $studentEnrollDat);
 
@@ -126,32 +187,31 @@ class AdminStudent extends CI_Controller {
 			}
 
 		}
-		else{
-			echo "This is the post Array for Edit new Student";
-			$this->chkData($_POST);
+		else{ // edit only the student data will be change
+			
+			//$this->chkData($_POST);
+
+			//exit();
+			$secCode = array_pop($_POST); // remove the section prt
+
+			$editLRN = array_shift($_POST);
+
+			$editSQl = "UPDATE `tbstudent` SET `First_Name`=(?),`Last_Name`=(?),`Initial`=(?),`Gender`=(?) WHERE `LRN_Number`= (?)";
+
+			$editStudQ = $this->db->query($editSQl, [$_POST['First_Name'], $_POST['Last_Name'], $_POST['Initial'], $_POST['Gender'], $editLRN]);
+
+			$editEnrolledSQL = "UPDATE `tbenrolled` SET `Status`=(?) WHERE `LRN_number`=(?) AND `Section_Code`=(?)";
+
+			$editEnrolledQ = $this->db->query($editEnrolledSQL, [$status, $editLRN, $secCode]);
+
+			if (($editStudQ) && ($editEnrolledQ)) {
+				echo json_encode(['status' => true]);
+			}
+			else{
+				echo json_encode(['status' => false]);
+			}
 		}
-			/*1. get the POST data from the view
-			//2. validate the input data
-			3. save the new student in the following table base on the section
-			(tbstudent_subject => kaiba na dapat si mga assgignatory na listed,
-			 tbstudent => create the password will be the last 4 digit of LRN Number,
-			  tbenrolled =>  )
-
-			  * tbstudent
-			  * tbenrolled 
-			  * tbstudent_subject
-
-
-			  return Type BOOL
-		*/
-	}
-
-	public function editStudentDat($LRNNumber)
-	{
-		/*
-			1. get the current student Dat
-			2. change the tbstudent table with the new student data
-		*/
+		
 	}
 
 	public function getClassMates($secCode)

@@ -18,9 +18,9 @@
 				  	 	 </div>
 				  	 	 <div class="col-md-push-3 col-md-4 col-sm-4">
 				  	 	 	<label for="teachStatus"> Status: </label>
-				  	 	 	<select name="Status" class="form-control cusInput" id="teachStatus" readonly>
+				  	 	 	<select name="Status" class="form-control cusInput" id="teachStatus">
 				  	 	 		<option value="Active"> Active </option>
-				  	 	 		<!-- <option value="Active"> Non-Active </option> -->
+				  	 	 		<option value="Active"> Non-Active </option>
 				  	 	 	</select>
 				  	 	 </div>
 				  	 </div>

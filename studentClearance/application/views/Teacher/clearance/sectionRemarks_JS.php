@@ -148,18 +148,18 @@
     	var statusLength = ($('input[type="radio"]').length / 3)
     	var currentRemarks = $("form#frmStudRemarks").serializeArray();
 
-    	console.log("that the data in the form now");
+    	//console.log("that the data in the form now");
 
-    	alert(statusLength);
+    	//alert(statusLength);
 
     	var statusChecked = $('input[type="radio"]:checked').length;
-    	console.log("total radio checked: "+statusChecked);
+    	//console.log("total radio checked: "+statusChecked);
     	//return;
     	//currentRemarks.splice(0,1);
     	currentRemarks.shift();
 //
-    	console.log(typeof(currentRemarks)); // so mga radio nading na checked
-    	console.log(currentRemarks); // so mga radio nading na checked
+    	//console.log(typeof(currentRemarks)); // so mga radio nading na checked
+    	//console.log(currentRemarks); // so mga radio nading na checked
     	//return;
 
 
@@ -221,6 +221,7 @@
     	.done(function(data) {
     		console.log("success");
     		console.log(data);
+            alert('Clearance Submitted');
     	})
     	.fail(function() {
     		console.log("error");

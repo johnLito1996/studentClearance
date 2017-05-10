@@ -50,7 +50,7 @@ class LoginModel extends CI_Model
 		}
 		else{
 
-			$Q = $this->db->get_where($this->tbl[2], $this->condition);
+			$Q = $this->db->get_where($this->tbl[2], array('Password' => $this->usrPass));
 			if ($Q->num_rows() == 1) {
 				echo 'Student';
 			}

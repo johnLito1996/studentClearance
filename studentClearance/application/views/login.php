@@ -2,10 +2,14 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title> Admin | Login </title>
+    <title> SC | Login </title>
 	<?php include_once('Admin/static/head.php'); ?>
 	<!-- custom css below -->
 	<link rel="stylesheet" type="text/css" href="<?= base_url('assets/template/css/custom/teacher.css'); ?>">
+
+  <!-- bootstrap validator -->
+  <link rel="stylesheet" type="text/css" href="<?= base_url('assets/bootstrapValidator/dist/css/bootstrapValidator.css'); ?>">
+
     <style type="text/css">
 
         /* checking css */
@@ -54,13 +58,13 @@
                     
                     <!-- col-md-push-1 col-lg-push-1 -->
                     <div class="row">
-                        <div class="col-md-7 col-lg-7">
+                        <div class="col-md-7 col-lg-7 col-md-push-1">
                            <div class="panel">
 
                                 <div class="panel-body">
                                     <div class="col-md-offset-3 col-lg-offset-3"> <img src="<?= base_url($scPic); ?>"></div>
                                     <form class="form-horizontal  col-lg-offset-2 col-md-offset-2" role="form" id="frmLogin">
-                                      <div class="form-group">
+                                      <div class="form-group" id="usrNamePrt">
                                           <label class="col-lg-2 col-sm-2 control-label">Username</label>
                                           <div class="col-lg-5">
                                               <input type="text" class="form-control" id="usrName" name="Username" placeholder="Username" required>
@@ -75,24 +79,26 @@
                                               <span class="fa fa-eye fa-md pull-right" title="Show password">
                                               <input type="checkbox" id="shwPass">
                                               </span>
-                                              <p class="help-block"><spanc class="fa fa-warning fa-sm"><i>Default:</i> Same from Username. </span></p>
+                                              <p class="help-block" id="studAdminHelp"><spanc class="fa fa-warning fa-sm"><i>Default:</i> Same from Username. </span></p>
+                                              <p class="help-block" id="forStudent"><span class="fa fa-warning fa-sm"></span> Last 4 digit of LRN number</p>
                                           </div>
                                       </div>
 
                                         <label>Account Type </label><br>
                                           <label class="radio-inline">
-                                            <input type="radio" name="usrType" value="admin" checked>Admin
+                                            <input type="radio" name="usrType" value="admin" checked id="radAdmin">Admin
                                           </label>
                                           <label class="radio-inline">
-                                            <input type="radio" name="usrType" value="teacher">Teacher
+                                            <input type="radio" name="usrType" value="teacher" id="radTeacher">Teacher
                                           </label>
                                           <label class="radio-inline">
-                                            <input type="radio" name="usrType" value="student">Student
+                                            <input type="radio" name="usrType" value="student" id="radStudent">Student
                                           </label>
                                         <hr>
                                       <div class="form-group">
                                           <div class="col-lg-offset-5 col-lg-10">
                                               <button type="submit" class="btn btn-danger btn-lg btnLogin">Login</button>
+                                              <!-- onclick="validateAccount()" -->
                                           </div>
                                       </div>
                                   </form>
@@ -101,11 +107,9 @@
                            </div>
                         </div>
 
-                        <div class="col-md-5 col-lg-5 chk">
-                        
+                        <!-- <div class="col-md-5 col-lg-5 chk">
                             <h4> School notification here </h4>
-
-                        </div>
+                        </div> -->
 
                     </div>
                 <!-- row end -->
@@ -116,44 +120,27 @@
         </div><!-- ./wrapper -->
 
 	<?php include_once('Admin/static/foot.php') ?>
+  <script src="<?= base_url('assets/bootstrapValidator/dist/bootstrap.validator.js'); ?>"></script>
+
     <script>
+//cache 
+
+    var $FORMLOGIN = $("#frmLogin");
+    var $RADusr = $("#usrNamePrt");
+    var $USRNAME = $("#usrName");
+    var $USPASS = $("#usrPass");
+
+//script  VAR
+    var typeAcc = 'admin';
+    var url;
 
         var app = {
 
             init:function(){
                 $("#adminPic").hide();
                 $(".dropdown-custom").hide();
-
-                var url = "<?= site_url('index.php/Login/validate'); ?>";
-                $("form#frmLogin").on('submit', function(evt){
-                    evt.preventDefault();
-                    var data = $("form#frmLogin").serialize();
-                    console.log(data);
-                    $.ajax({
-                        url:url,
-                        type:"POST",
-                        dataType:"text",
-                        data:data,
-                            success:function(response){
-                                expr = /Not/;  // no quotes here
-                                var evaluate = expr.test(response); // true agko Not
-                                //alert(typeof(response));
-                                if (evaluate) {
-                                    var type = response.slice(3);
-                                    alert("Wrong " + type + " Account");
-
-                                }
-                                else{
-                                   /* alert("Welcome " + response);*/
-                                   url = "<?= site_url('index.php/AdminTeacher'); ?>";
-                                    location.href = url;
-                                }
-                            },
-                            error:function(request, errType, errMsg){
-                                alert('Error: ' + errType + 'Message: ' + errMsg);
-                            }
-                        });
-                });
+                $("#forStudent").hide();
+                
 
                 // showing the input pass
                 $('#frmLogin :checkbox').change(function() {
@@ -163,10 +150,102 @@
                         $("#usrPass").attr('type','password');
                     }
                 });
+
+
+                //showing the animation of label
+                $('input[type=radio][name=usrType]').change(function() {
+                  if (this.value == 'admin') {
+                      //alert('This is the Admin Radio FM');
+                      $RADusr.show('slow');
+                      $("#forStudent").hide('slow');
+                      $("#studAdminHelp").show('slow');
+                      typeAcc = 'admin';
+                      $("#usrPass").attr('type', 'password');
+                      $("#usrPass").removeAttr('maxLength');
+                      $USRNAME.val("");
+                      $USPASS.val("");
+
+                  }
+
+                  if (this.value == 'teacher') {
+                      //alert('This is the Teacher Radio FM');
+                      $RADusr.show('slow');
+                      $("#forStudent").hide('slow');
+                      $("#studAdminHelp").show('slow'); 
+                      typeAcc = 'teacher';
+                      $("#usrPass").attr('type', 'password');
+                      $("#usrPass").removeAttr('maxLength');
+                      $USPASS.val("");
+                      $USRNAME.val("");
+
+                  }
+
+                  if(this.value == 'student'){
+                      //alert('This is the Student Radio FM');
+                      $RADusr.hide('slow');
+                      $("#studAdminHelp").hide('slow');
+                      $("#forStudent").show('slow');
+                      typeAcc = 'student';
+                      $("#usrPass").attr({
+                        'type':'Number'
+                      });
+                      $USPASS.val("");
+                  }
+                });
             }
-        } 
+        }
+
         $(document).ready(function(){
             app.init();
+
+            $FORMLOGIN.bootstrap3Validate(function (e) {
+              e.preventDefault();
+              //$FORMLOGIN.attr('action', )
+               url = "<?= site_url('index.php/Login/validateAccount') ?>/"+typeAcc;
+               data = $FORMLOGIN.serializeArray();
+                if (typeAcc == 'admin') {
+                  
+                  $.post(url,  data, function(response){
+                    response = $.parseJSON(response);
+                    if (response.admin) {
+                        url = "<?= site_url('index.php/AdminStudent') ?>";
+                        location.href = url;
+                    }
+                    else{
+                      alert("Admin Account Incorrect!")
+                    }
+                  });
+                }
+                else if(typeAcc == 'teacher'){
+                  console.log(data);
+                  $.post(url,  data,function(response){
+                    response = $.parseJSON(response);
+                    if (response.teacher) {
+                        url = "<?= site_url('index.php/Teacher') ?>";
+                        location.href = url;                   
+                    }
+                    else{
+                      alert("Teacher Account Incorrect!")
+                    }
+                  });
+                }
+                else{
+                  console.log(data);
+                  $.post(url,  data,function(response){
+                    response = $.parseJSON(response);
+                    if (response.student) {
+                        url = "<?= site_url('index.php/Student') ?>";
+                        location.href = url; 
+                    }
+                    else{
+                      alert("Student Password Incorrect!")
+                    }
+                  });
+                }
+
+                //alert(typeAcc);
+            });
+
         });
     </script>
 

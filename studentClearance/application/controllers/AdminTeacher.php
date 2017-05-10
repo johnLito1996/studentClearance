@@ -17,6 +17,14 @@ class AdminTeacher extends CI_Controller
 
 	}
 
+	// private function to chkDatas
+	private function chkData($Q)
+	{
+		echo "<pre>";
+		print_r($Q);
+		echo "</pre>";
+	}
+
 	public function index(){
 
 		$data['scPic'] = $this->setting->schoolPic();
@@ -50,7 +58,7 @@ class AdminTeacher extends CI_Controller
 	//teacherList
 	public function ajax_teach_list(){
 		
-		$this->db->order_by("Teacher_Last_Name", "ASC");
+		$this->db->order_by("Teacher_First_Name", "ASC");
 		$Q = $this->db->get_where($this->tbteacher, array('Status'=> 'Active'));
 
 		echo json_encode(['data' => $Q->result()]);
@@ -59,26 +67,43 @@ class AdminTeacher extends CI_Controller
 	//savenewTeach
 	public function saveTeach($method){
 
-		$userPass = $this->input->post('Teacher_First_Name').'_'.$this->input->post('Teacher_Last_Name');
+		if ($method == 'add') {
 
-		$arrUser = array(
-			'Username' => str_replace(' ', '_', $userPass),
-			'Password' => str_replace(' ', '_', $userPass)
-			);
+			$userPass = $this->input->post('Teacher_First_Name').'_'.$this->input->post('Teacher_Last_Name');
 
-		// mergeng array POST and userDat
-		$data = array_merge($_POST, $arrUser);
+			$arrUser = array(
+				'Username' => str_replace(' ', '_', $userPass),
+				'Password' => str_replace(' ', '_', $userPass)
+				);
 
-		$X = $this->db->insert($this->tbteacher, $data);
-		if ($X) {
-			$X = true;
+			// mergeng array POST and userDat
+			$data = array_merge($_POST, $arrUser);
+
+			$X = $this->db->insert($this->tbteacher, $data);
+			//$X = true;
+			if ($X) {
+				$X = true;
+			}
+			else{
+				$X = false;
+			}
+			
+			echo json_encode(['status' => $X, 'method' => $method]);
 		}
 		else{
-			$X = false;
+
+				 $this->db->where('Teacher_ID', $_POST['Teacher_ID']);
+			$Q = $this->db->update('tbteacher', $_POST);
+
+			if ($Q) {
+				echo json_encode(['status' => true]);
+			}
+			else{
+				echo json_encode(['status' => false]);
+			}
 		}
 		
-		echo json_encode(['status' => $X, 'method' => $method]);
-		//echo json_encode(['status' => true]);
+		
 	}
 
 	public function delTeachList($id){
@@ -95,5 +120,13 @@ class AdminTeacher extends CI_Controller
 		}
 
 		echo json_encode(['status'=> $Q]);
+	}
+
+
+	public function getTeacherDat($teachID)
+	{
+		$Q = $this->db->get_where('tbteacher', array('Teacher_ID' => $teachID));
+		//$this->chkData($Q->result());
+		echo json_encode(['teachDAt' => $Q->result()]);
 	}
 }

@@ -22,11 +22,19 @@
 					  	 	 	<input type="text" class="form-control cusInput upTxt" name="LRN_Number" id="studLRN" maxlength="20">
 					  	 	 </div>
 
+							<div class="col-md-4 col-sm-4">
+					  	 	 	<label style="display: inline;"> Password: </label>
+  	 	 						<input type="text" name="Password" class="form-control cusInput upTxt" id="studPass" readonly>
+					  	 	 </div>
+
 							<!-- sa edit nalang etong select na dropbox -->
-					  	 	 <!-- <div class="col-md-4 col-sm-4">
-					  	 	 	<label style="display: inline;"> LRN Number: </label>
-					  	 	 	<select id=""></select>
-					  	 	 </div> -->
+					  	 	 <div class="col-md-4 col-sm-4">
+					  	 	 	<label style="display: inline;"> Status: </label>
+					  	 	 	<select id="studStatus" name="Status" class="form-control cusInput">
+					  	 	 		<option value="Enrolled"> Enrolled </option>
+					  	 	 		<option value="Dropped"> Dropped </option>
+					  	 	 	</select>
+					  	 	 </div>
 							
 
 					  	 </div>
@@ -74,7 +82,6 @@
 	                  	</div>
 	                  </div>
 	                </fieldset>
-					<input type="text" name="Password" id="studPass" readonly>
               	</form>
 				</div>
 				<!--/.col1-->
@@ -82,7 +89,7 @@
 				<div class="col-sm-6">
 					<div class="row">
 					<fieldset style="margin-left: 3%";>
-					<legend> <b style="font-size: 15px;"> Classmates List </b> <span class="pull-right">total student:<b id="totlClassMates">0</b></span> </legend>
+					<legend> <b style="font-size: 15px;" id="secID"> Classmates List </b> <span class="pull-right" style="margin-right: 40px;">total student:<b id="totlClassMates">0</b></span> </legend>
 
 					<ul class="list-group scroll" id="classmatesList">                       
 					</ul>

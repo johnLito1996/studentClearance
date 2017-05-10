@@ -124,6 +124,7 @@
       var $StudMI= $("#studMI");
       var $Gender = $('input[name="Gender"]');
       var $secList = $("select#studSecList");
+      var $Status = $("#studStatus");
 
 // global VAR
       var method;  
@@ -147,10 +148,10 @@
             backdrop:"static",
             keyboard:false
        });
-       $("#secSubTbody").empty();
        $ModalTitle.text('New Student');
        $("button#btnSecSave").text('Save Student');
 
+       $("div#conSelectSection").show();
        // make the LRN Number using javascript function
        $LRN.val(getRandomInt(100000000000, 1000000000000));
        $LRN.attr('readonly', true);
@@ -159,8 +160,6 @@
        // hidden Pass
        $("#studPass").val(crntLRN.substr(crntLRN.length - 4));
 
-        // disabled readonly property
-        $FormSec.find("#secCode").removeAttr('readonly');
       }
 
       function sectionListDrop() {
@@ -179,9 +178,57 @@
         });
       }
 
+      var secCodeEdit;
+//editing student
+      function editStudent(LRN) {
+        // get the data of Student base in the view 
+        // supply it to the DOM NODe
+        url = "<?= site_url('index.php/AdminStudent/getStudentdata') ?>/"+LRN;
+
+        $.get(url, function(data){
+          data = $.parseJSON(data);
+
+          method = "edit";
+
+           $FormSec[0].reset();
+           $Modal.modal({ 
+                backdrop:"static",
+                keyboard:false
+           });
+           $ModalTitle.text('Update Student');
+           $("#btnStudSave").text("Update Student");
+
+           // make the LRN Number using javascript function
+           $LRN.val(data.dat[0].LRN_number);
+           $LRN.attr('readonly', true);
+
+           var crntLRN = $LRN.val();
+           // hidden Pass
+           $("#studPass").val(crntLRN.substr(crntLRN.length - 4));
+
+           $StudLname.val(data.dat[0].Last_Name);
+           $StudFname.val(data.dat[0].First_Name);
+           $StudMI.val(data.dat[0].Initial);
+            var crntGender = data.dat[0].Gender;
+           
+           if (crntGender == "Male") {
+               $("#radMale").prop('checked', 'true');
+           }else{
+              //radFemale
+               $("#radFemale").prop('checked', 'true');
+
+           }
+           
+           $("div#conSelectSection").hide();
+/*           $("#studSecList").val();
+*/           secCodeEdit = data.dat[0].Section_Code;
+
+            $Status.val(data.dat[0].Status);
+        })
+      
+      }
 
       function saveData() {
-        alert("This is the add bew student function");
 
         if (method == 'add') {
             // ajax request for the student adding
@@ -195,24 +242,85 @@
               res = $.parseJSON(res);
 
               console.log(res.status);
+
+              if (res.status) {
+                alert("Student Added");
+                tblStudReload();
+                $Modal.modal('hide');
+              }
+              else{
+                alert("Some Error Occur");
+              }
+
             })
         }
         else{
+
+            //alert(method);
+            data = $FormSec.serializeArray();
+            data[7].value = secCodeEdit;
+
+            url = "<?= site_url('index.php/AdminStudent/saveStudent') ?>/edit";
+
+            $.post(url, data, function(res){
+              res = $.parseJSON(res);
+
+              console.log(res.status);
+              alert("Student Record Updated");
+              tblStudReload();
+              $Modal.modal('hide');
+
+            })
 
         }
 
       }
 
+      var table;
       $(document).ready(function() {
           sectionListDrop();
           $("#studMI").on('focus', function(evt){
             evt.preventDefault();
             $(this).val("");
           })
-          $("#studMI").on('blur', function(evt){
-            evt.preventDefault();
-            $(this).val("-");
-          })
+
+
+          // datatable Student
+          //datatables
+          table = $("table#tblStud1").DataTable({
+
+                  /*key:value pairs_ JSON formated*/
+                  "bInfo" : false,
+                  "processing":true,
+                  "serverSide":true,
+                  "order":[],
+                  "ajax":{
+
+                      "url":"<?php echo site_url('index.php/AdminStudent/getStudentList') ?>",
+                      "type":"POST"
+                  },//ajax propeties with object JSON data
+
+
+                  "columnDefs": [
+                      { 
+                          "targets": [ -1 ], //last column
+                          "orderable": false, //set not orderable
+                      }
+                  ], //datatables colomDefinition
+
+                  "columns":[
+                      {"title":'LRN NUMBER'},
+                      {"title":'LAST NAME'},
+                      {"title":'FIRST NAME '},
+                      {"title":'INITIAL'},
+                      {"title":'GENDER'},
+                      {"title":'STATUS'},
+                      {"title":'SECTION CODE'},
+                      {"title":'Action'}
+                      
+                  ]
+
+              });
 
           // delegation in the student classmates part
           $("div#conSelectSection").on('change', 'select#studSecList', function(evt){
@@ -232,6 +340,12 @@
 
           });
       });
+
+
+      //reloading the datatables
+      function tblStudReload() {
+        table.ajax.reload(null,false);
+      }
     </script>
 </body> 
 </html>
