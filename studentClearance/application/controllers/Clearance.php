@@ -1,10 +1,11 @@
 <?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 
+// class for the clearance process
 class Clearance extends CI_Controller {
-
 
 	private $tbl = "tbstudent_subject";
 	private $secSub = "tbsubject_section_query";
+	//private $secSub = "tbsubject_section";
 
 	public function __construct()
 	{
@@ -12,6 +13,7 @@ class Clearance extends CI_Controller {
 		$this->load->database();
 	}
 
+// checking data
 	private function chkData($dat){
 
 		echo "<pre>";
@@ -19,12 +21,13 @@ class Clearance extends CI_Controller {
 		echo "</pre>";
 	}
 
-	//utf Decoding
+//utf symbol Decoding
 	private function decodeData($wrongChar){
 
 		return utf8_decode($wrongChar);
 	}
 
+//get student list using secCOde
 	public function getStudentList($secCode)
 	{
 		$sql = "call getSectionStudents(?)";
@@ -58,24 +61,19 @@ class Clearance extends CI_Controller {
 		
 	}
 
-
+// get the current remarks of student @sec, @LRN
 	public function getStudRemarks($secCode, $studId)
 	{
-
         $codition = array(
         		'section_code' => $secCode,
         		'LRN_number' => $studId
         	);
 		$Q = $this->db->get_where('tbstudent_subject', $codition);                            
-		
-		//$this->chkData($Q->result());
-
 		echo json_encode(['data' => $Q->result()]);
-
 	}
 
-	// Student NAme | Category | Remarks // get all the student that currently listed in 
-	// this subject in this section
+// Student NAme | Category | Remarks // get all the student that currently listed in 
+// this subject in this section
 	public function getSubRemarks($secCode, $subCode)
 	{
 		$sql = "call getSectionSubjectStuds(?, ?)";
@@ -84,14 +82,15 @@ class Clearance extends CI_Controller {
 
 	}
 
-	//getting subject of the sec
+//getting subject of the sec
 	public function getSubSec($secCode)
 	{
+
 		$Q = $this->db->get_where($this->secSub, array('Section_code' => $secCode));
 		echo json_encode(['data' => $Q->result()]);
 	}
 
-	// saving the daa
+// saving the data clearance
 	public function saveStudRemarks($secCode, $LRN_Number, $Subject_Signatory_Code, $newStatus)
 	{
 		// update the tbstudent_subject with the data of the parameters 
@@ -108,10 +107,11 @@ class Clearance extends CI_Controller {
 			$qStudRemarks = $this->db->replace($this->tbl, $Status); // update Section
 	}
 
+// change the student remarks
 	public function getJStatusRemarks($mthod)
 	{
-
-		// error paya hanggang ngowan kapatal ko man ay 
+		
+		//remarks using student LRN 
 		if ($mthod == "student") {
 
 			$dataStudSUb = json_decode(array_shift($_POST));
@@ -119,9 +119,6 @@ class Clearance extends CI_Controller {
 			$subCode = $_POST['RemarksCode'];
 
 			for ($i=0; $i < count($subCode) ; $i++) { 
-
-				//$sql = "call changeStudStatusRemarks(?, ?, ?, ?)";
-				//$Q = $this->db->query($sql, [$_POST['LRN_Number'], $_POST['Section_Code'], $subCode[$i], $dataStudSUb->$subCode[$i]]);
 
 				$sQL = "UPDATE tbstudent_subject SET Status = (?) WHERE LRN_Number = (?) AND Section_Code = (?) AND Subject_Signatory_Code = (?)";
 
@@ -137,25 +134,16 @@ class Clearance extends CI_Controller {
 			
 		}
 		else{
-			// for subject seach
-			echo $mthod;
-			
-			$this->chkData($_POST);
+			// remarks clearance using subjects
+			//echo $mthod;
+			//$this->chkData($_POST);
 			$dataStud = json_decode(array_shift($_POST));
 			$studLrn = $_POST['StudLRN'];
 			
-			//$this->chkData($dataStud);
-			//die();
 			for ($i=0; $i < count($studLrn) ; $i++) {
 
-				//$sql = "call changeStudStatusRemarks(?, ?, ?, ?)";
-				//$Q = $this->db->query($sql, [$studLrn[$i], $_POST['Section_Code'], $_POST['Subject_Signatory_Code'], $dataStud->$studLrn[$i]]);
 				$sql = "UPDATE tbstudent_subject SET Status = (?) WHERE LRN_Number = (?) AND Section_Code = (?) AND Subject_Signatory_Code = (?)";
 				$Q = $this->db->query($sql, [$dataStud->$studLrn[$i], $studLrn[$i], $_POST['Section_Code'], $_POST['Subject_Signatory_Code']]);
-
-				
-
-				//$this->chkData($arr);
 				
 			}
 
@@ -168,7 +156,7 @@ class Clearance extends CI_Controller {
 
 		}
 
-		$_POST = array();
+		$_POST = array(); // empty the $_POST array
 		
 	}
 

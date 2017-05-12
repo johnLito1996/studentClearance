@@ -75,7 +75,8 @@
             </div>
         </div><!-- ./wrapper -->
 
-	<?php include_once('static/foot.php') ?>
+	<?php include_once('static/foot.php'); ?>
+    <?php include_once('static/adminjs.php'); ?>
     <script>
     //cache
     var $table_striped = $("table.table-striped");
@@ -147,25 +148,11 @@
             });
         }
 
-        // get Admin Data
-         function getAdminDat(){
-            url = "<?= base_url('index.php/AdminAssignatory/AdminDat'); ?>";
-            $.get(url,function(response){
-                
-               response = $.parseJSON(response);
-                //console.log(response.data[0].Pic);
-                var picAdmin = "<?=base_url()?>/" + response.data[0].adminPic;
-                $("#adminPic").attr('src',picAdmin);
-                $("#adminName").text(response.data[0].UserName);
-
-                console.log(response);
-            });  
-        }
 
         $(document).ready(function(){
             //calling function
             getAssigDat();
-            getAdminDat();
+            //getAdminDat();
 
             //active
             $("#hrefAssig").addClass('active');

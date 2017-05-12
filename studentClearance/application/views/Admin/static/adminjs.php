@@ -12,7 +12,13 @@
                 var picAdmin = "<?=base_url()?>/" + response.data[0].adminPic;
                 $("#adminPic").attr('src',picAdmin);
                 $("#adminName").text(response.data[0].UserName);
-               // console.log(response);
+
+                if (response.data[0].adminType != "super") {
+                    //hide the utility button
+                    $("#hrefUtil").hide();
+                }
+               
+               //console.log(response);
             });
 
             

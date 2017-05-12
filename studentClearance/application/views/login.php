@@ -62,8 +62,8 @@
                            <div class="panel">
 
                                 <div class="panel-body">
-                                    <div class="col-md-offset-3 col-lg-offset-3"> <img src="<?= base_url($scPic); ?>"></div>
-                                    <form class="form-horizontal  col-lg-offset-2 col-md-offset-2" role="form" id="frmLogin">
+                                    <div class="col-md-offset-4 col-lg-offset-4"> <img src="<?= base_url($scPic); ?>"></div>
+                                    <form class="form-horizontal  col-lg-offset-3 col-md-offset-3" role="form" id="frmLogin">
                                       <div class="form-group" id="usrNamePrt">
                                           <label class="col-lg-2 col-sm-2 control-label">Username</label>
                                           <div class="col-lg-5">
@@ -76,9 +76,9 @@
                                           <label class="col-lg-2 col-sm-2 control-label">Password</label>
                                           <div class="col-lg-5">
                                               <input type="password" class="form-control" id="usrPass" name="Password" placeholder="Password" required>
-                                              <span class="fa fa-eye fa-md pull-right" title="Show password">
+                                              <!-- <span class="fa fa-eye fa-md pull-right" title="Show password">
                                               <input type="checkbox" id="shwPass">
-                                              </span>
+                                              </span> -->
                                               <p class="help-block" id="studAdminHelp"><spanc class="fa fa-warning fa-sm"><i>Default:</i> Same from Username. </span></p>
                                               <p class="help-block" id="forStudent"><span class="fa fa-warning fa-sm"></span> Last 4 digit of LRN number</p>
                                           </div>
@@ -143,13 +143,13 @@
                 
 
                 // showing the input pass
-                $('#frmLogin :checkbox').change(function() {
+                /*$('#frmLogin :checkbox').change(function() {
                     if (this.checked) {
                         $("#usrPass").attr('type','text');
                     } else {
                         $("#usrPass").attr('type','password');
                     }
-                });
+                });*/
 
 
                 //showing the animation of label
@@ -182,14 +182,15 @@
 
                   if(this.value == 'student'){
                       //alert('This is the Student Radio FM');
-                      $RADusr.hide('slow');
+                      //$RADusr.hide('slow');
                       $("#studAdminHelp").hide('slow');
                       $("#forStudent").show('slow');
                       typeAcc = 'student';
-                      $("#usrPass").attr({
+                      /*$("#usrPass").attr({
                         'type':'Number'
-                      });
+                      });*/
                       $USPASS.val("");
+
                   }
                 });
             }
@@ -243,7 +244,6 @@
                   });
                 }
 
-                //alert(typeAcc);
             });
 
         });

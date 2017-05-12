@@ -9,10 +9,7 @@ class Teacher extends CI_Controller {
 	{
 		parent::__construct();
 		$this->load->database();
-
 		$this->load->model('Admin/SettingModel', 'setting');
-		$this->load->model('teacher/TeacherDashBoard', 'thisModel');
-
 	}
 
 //load the view for teacherHome
@@ -41,6 +38,7 @@ class Teacher extends CI_Controller {
 		echo json_encode(['teacherDAt' => $teachDAT]);
 	}
 
+// checking data
 	private function chkData($Q)
 	{
 		echo "<pre>";
@@ -58,7 +56,8 @@ class Teacher extends CI_Controller {
 		$result = $Q->result();
 		
 		$data;
-		foreach ($result as $row) {
+		if ($Q->num_rows != 0) {
+			foreach ($result as $row) {
 			$secCode = $row->Section_code; 
 			$teachId = $tID;
 			$btnEdit = '
@@ -69,7 +68,18 @@ class Teacher extends CI_Controller {
                 //$row->Action = 'sample';
                 $data[] = $row;
              }
-		echo json_encode(['data' => $data]);
+			echo json_encode(['data' => $data]);
+		}
+		else{
+			echo '{
+			    "sEcho": 1,
+			    "iTotalRecords": "0",
+			    "iTotalDisplayRecords": "0",
+			    "aaData": []
+			}';
+		}
+		
+		
 		
 	}//e()
 

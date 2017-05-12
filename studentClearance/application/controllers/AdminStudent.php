@@ -3,6 +3,7 @@
 class AdminStudent extends CI_Controller {
 
 	private $studTbl = 'tbstudent';
+	private $crntAdmin;
 	public function __construct()
 	{
 		parent::__construct();
@@ -28,8 +29,17 @@ class AdminStudent extends CI_Controller {
 	//index function
 	public function index()
 	{
-		$data['scPic'] = $this->setting->schoolPic();
-		$this->load->view('Admin/studentPane', $data);
+		$adminID = $this->session->userdata('adminUserNameCrnt');
+		$this->crntAdmin = $adminID;
+
+		if (empty($this->crntAdmin)) {
+			show_404();
+		}
+		else{
+			$data['scPic'] = $this->setting->schoolPic();
+			$this->load->view('Admin/studentPane', $data);
+		}
+		
 	}
 
 	//admin data
@@ -95,8 +105,9 @@ class AdminStudent extends CI_Controller {
 // saving and editing student
 	public function saveStudent($method)
 	{
+		if ($method == 'add') {
 
-		$status = $_POST['Status'];
+			$status = $_POST['Status'];
 		unset($_POST['Status']); // remove the status in post
 
 		$crntLRN = $_POST['LRN_Number'];
@@ -105,11 +116,10 @@ class AdminStudent extends CI_Controller {
 // getting subjects 
 					  $this->db->select('Subject_Code');
 					  $this->db->order_by('Subject_Code', 'DESC');
-			$SecSub = $this->db->get_where('tbsubject_section', array('Section_code' => $_POST['Section_Code'])); // put a index to insert that the remarks is SUBJECT
+			$SecSub = $this->db->get_where('tbsubject_section', array('Section_code' => $crntsecCode)); // put a index to insert that the remarks is SUBJECT
 
 			$secSub = $SecSub->result_array();
 			for ($i=0; $i < count($secSub) ; $i++) { 
-				//$secSub[$i]['Category'] => 'SUBJECT';
 
 				if(!array_key_exists('Category', $secSub[$i]))
 				{
@@ -119,12 +129,11 @@ class AdminStudent extends CI_Controller {
 
 // getting assignatory
 							 $this->db->select('Signatory_code');
-							 ini_set('memory_limit', '-1');
-			$SignatoryList = $this->db->get('tbsignatory');
+/*							 ini_set('memory_limit', '-1');
+*/			$SignatoryList = $this->db->get('tbsignatory');
 			$sigNatoryList = $SignatoryList->result_array();
 
 			for ($i=0; $i < count($sigNatoryList) ; $i++) { 
-				//$secSub[$i]['Category'] => 'SUBJECT';
 
 				if(!array_key_exists('Category', $sigNatoryList[$i]))
 				{
@@ -132,10 +141,9 @@ class AdminStudent extends CI_Controller {
 				}
 			}
 
-
-
-		if ($method == 'add') {
 //tbstudent
+			$usrname = $_POST['First_Name']."_".$_POST['Last_Name'];
+
 			$stud_DAT = array(
 				'LRN_Number' => $crntLRN,
 				'First_Name' => $_POST['First_Name'],
@@ -143,8 +151,9 @@ class AdminStudent extends CI_Controller {
 				'Initial' => $_POST['Initial'],
 				'Gender' => $_POST['Gender'],
 				'Password' => $_POST['Password'],
-
+				'Username' => str_replace(' ', '_', strtolower($usrname))
 				);
+			
 			$saveStudent = $this->db->insert($this->studTbl, $stud_DAT);
 
 			for ($i=0; $i < count($secSub) ; $i++) { 
@@ -188,10 +197,7 @@ class AdminStudent extends CI_Controller {
 
 		}
 		else{ // edit only the student data will be change
-			
-			//$this->chkData($_POST);
 
-			//exit();
 			$secCode = array_pop($_POST); // remove the section prt
 
 			$editLRN = array_shift($_POST);

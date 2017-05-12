@@ -4,18 +4,16 @@
         var url;
 
         function getAdminDat(){
-            url = "<?= base_url('index.php/AdminTeacher/AdminDat'); ?>";
+            url = "<?= site_url('index.php/AdminTeacher/AdminDat'); ?>";
             $.get(url,function(response){
                 
                response = $.parseJSON(response);
                 //console.log(response.data[0].Pic);
                 var picAdmin = "<?=base_url()?>/" + response.data[0].adminPic;
                 $("#adminPic").attr('src',picAdmin);
-                $("#adminName").text(response.data[0].UserName);
+                $("#adminName, #cUsername").text(response.data[0].UserName);
                // console.log(response);
-            });
-
-            
+            });  
         }
 
 		$(document).ready(function($) {

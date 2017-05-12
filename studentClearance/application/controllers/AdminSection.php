@@ -6,6 +6,10 @@ class AdminSection extends CI_Controller {
 	// section tbl 
 	private $tblSection = 'tbsection';
 	private $tblSecSubjects = 'tbsubject_section';
+
+	//session
+	private $crntAdmin;
+
 	public function __construct()
 	{
 		parent::__construct();
@@ -18,17 +22,25 @@ class AdminSection extends CI_Controller {
 	    $this->load->model('Admin/SettingModel', 'setting');
 		
 		//sectionModel
-		$this->load->model('section/SectionModel', 'thisModel');
 		$this->load->model('section/Acad_sections', 'thisModel2');
 	}
 
+//section Home
 	public function index()
 	{
-    	$data['scPic'] = $this->setting->schoolPic();
-		$this->load->view('Admin/sectionPane', $data);
+		$adminID = $this->session->userdata('adminUserNameCrnt');
+		$this->crntAdmin = $adminID;
+
+		if (empty($this->crntAdmin)) {
+			show_404();
+		}
+		else{
+			$data['scPic'] = $this->setting->schoolPic();
+			$this->load->view('Admin/sectionPane', $data);
+		}
 	}
 
-	// get the name of teacher using his/ her ID
+// get the name of teacher using his/ her ID
 	private function getTeacher($teacherID, $secCode)
 	  {
 	    $tblSecTeachV = 'tbteachersec';
@@ -81,7 +93,7 @@ class AdminSection extends CI_Controller {
 				
 				<button type="button" class="btn btn-sm btn-danger" title="Delete Section Record" onclick="delSec('."'".$secCode."'".', '."'".$teachId."'".')" ><span class="fa fa-warning fa-sm"></span> Delete </button>&nbsp
 
-				<button type="button" class="btn btn-sm btn-primary" title="Proceed to clearance" onclick="secClearance('."'".$secCode."'".', '."'".$teachId."'".')" > <span class="fa fa-info"></span> Clearance </button>&nbsp
+				<button type="button" class="btn btn-sm btn-primary" title="Proceed to clearance" onclick="secClearance('."'".$secCode."'".', '."'".$teachId."'".')" id="btnProClearance"> <span class="fa fa-info"></span> Clearance </button>&nbsp
 			';
 			
 
@@ -106,7 +118,8 @@ class AdminSection extends CI_Controller {
 	public function subjectList()
 	{ 	$tblSubjects = 'tbsubject_list';
 
-		$this->db->order_by("Subject_Code", "ASC");
+		//$this->db->order_by("Subject_Code", "ASC");//Subject_Description
+		$this->db->order_by("Subject_Description", "ASC");//
 		$Q = $this->db->get($tblSubjects);
 		echo json_encode(['data' => $Q->result()]);
 	}
@@ -116,24 +129,17 @@ class AdminSection extends CI_Controller {
 	public function getSectionSubjects($secCode, $teachID)
 	{
 		//sectionDat
-		$QSec = $this->db->get_where('tbsection_query', array('Section_code'=> $secCode, 'Adviser' => $teachID), 1);
+		$QSec = $this->db->get_where('tbsection_query', array('Section_code'=> $secCode, 'Adviser' => $teachID));
 
 		//secSub
 		$QSecSub = $this->db->get_where('tbsubject_section', array('Section_code'=> $secCode, 'Teacher_ID'=> $teachID));
 
 		$output = array_merge($QSec->result(), $QSecSub->result());
 		
-		
-		//echo "<pre>";
-		echo json_encode($output);
-		//$this->chkData($output);
-		//echo "</pre>";
-
-		// section data 
-
-			// the different subjects  
+		echo json_encode($output); 
 	}
 
+//checking data
 	private function chkData($Q)
 	{
 		
@@ -142,18 +148,18 @@ class AdminSection extends CI_Controller {
 		echo "</pre>";	
 	}
 
-	// saving section edit or add new one
+// saving section edit or add new one
 	public function saveSection($method)
 	{
 
-		$this->form_validation->set_rules('Section_code', 'Section Code', 'is_unique[tbsection.Section_code]');
+		if ($method == 'add') {
+			
+			$this->form_validation->set_rules('Section_code', 'Section Code', 'is_unique[tbsection.Section_code]');
 			if ($this->form_validation->run() == false) {
 				//echo 'Duplicate Section Code';
 				echo json_encode(['status' => 'duplicate']);
 				exit();
 			}
-
-		if ($method == 'add') {
 			
 			$subjects = explode(',', $_POST['subjects'][0]);
 
@@ -214,6 +220,7 @@ class AdminSection extends CI_Controller {
 		}
 	}
 
+//deleting section
 	public function deleteSec($secCode, $teachId)
 	{
 		$sql = "call deleteSection(?, ?)";
@@ -228,7 +235,8 @@ class AdminSection extends CI_Controller {
 	}
 
 
-	// additional functions
+// additional functions
+// ajax to get the current section list
 	public function currentSecList($selectName)
 	{
 		$this->db->select('Section_code');

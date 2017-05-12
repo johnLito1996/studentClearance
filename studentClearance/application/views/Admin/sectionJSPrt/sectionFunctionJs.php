@@ -14,11 +14,18 @@
         var method;
         var data;
 
-    //section Var
+   // adding new subjects 
+      // addingSection Subjects New
+        var subList = [];
+        var ctrSubAdd = 0;
+
+    //section Var edit Arr
         var FSubList = [];
 
         function addSection(){
             method = 'add';
+
+            subList.splice(0, subList.length);
             $FormSec[0].reset();
            $Modal.modal({ 
                 backdrop:"static",
@@ -65,17 +72,9 @@
            teacherList();
            subjectList();
            $TblsecSub.find('tbody').empty();
-           /*
-            STEPs
-            readonly lang dapat si sec Code 
-              1. kukunin ko na si mga data na kailangan ng section from tbsection and tbsubject_section
-              2. ilalagay eto mga fields kagaya ng ginawa sa teacher
-              3. e uupdate eto or e sasave tapon sa controllerMod
-           */
+
            url = "<?= site_url('index.php/AdminSection/getSectionSubjects') ?>/"+ secCode + "/" + TID;
 
-          // empty the currentSubjects array
-           //currnt_subList.splice(0, ctrSubList); 
            var opt;
            $.get(url, function(data){
 
@@ -83,16 +82,6 @@
              var fName = data[0].Teacher_Last_Name + ", " + data[0].Teacher_First_Name +" "+ data[0].Teacher_MiddleInitial;
 
              var tblSecSubList;
-
-              //console.log(data);
-              
-              //for
-
-              //alert(data.length);
-
-              //console.log(data[0]);
-              /* server data for the current section */
-
 
               Section_code = data[0].Section_code;
               Track = data[0].Track;
@@ -125,20 +114,19 @@
                   <tr>
                     <td>`+data[i].Subject_Code+`</td>
                     <td>`+fName+`</td>
-                    <td>
-                    <button type="button" class="btn btn-danger customBtn" id="removeSub"> <span class="fa fa-times"></span> Remove </button>
-                    </td>
                   </tr>
                   `;
 
+                  /*
+    <td>
+                    <button type="button" class="btn btn-danger customBtn" id="removeSub"> <span class="fa fa-times"></span> Remove </button>
+                    </td>
+                  */
                   $TblsecSub.find('tbody').append(tblSecSubList);
 
                   console.log(data[i].Subject_Code + "index of " + i);
                   currnt_subList.push(data[i].Subject_Code);
               }
-
-              //console.log("current subject with teacher");
-              //console.log(currnt_subList);
 
               FSubList = currnt_subList;
               currnt_subList.splice(0, currnt_subList.length);
@@ -160,7 +148,7 @@
         // section adviser
         function teacherList() {
           var $secAdviser = $("select#secAdviser");
-          url = "<?= site_url('index.php/AdminTeacher/ajax_teach_list') ?>";
+          url = "<?= site_url('index.php/AdminTeacher/ajax_teach_list_sec') ?>";
           $.get(url, function(data){
 /*            console.log(data); jsonString
 */            data = $.parseJSON(data);
@@ -201,9 +189,6 @@
         }
 
 
-        // addingSection Subjects New
-        var subList = [];
-
         function addSecSub() {
 
           var curntSub = $("select#Subject_Code").val();
@@ -223,21 +208,21 @@
             <td>`+curntSub+`</td>
             <td>`+$("select#secAdviser option:selected").text()+`</td>
             <td>
-              <button type="button" class="btn btn-danger customBtn" id="removeSub"> <span class="fa fa-times"></span> Remove </button>
+              <button type="button" class="btn btn-danger customBtn" id="removeSub" data-indxeradd="`+ctrSubAdd+`"> <span class="fa fa-times"></span> Remove </button>
             </td>
           </tr>
           `;
 
+          ctrSubAdd += 1;
+
+          console.log(ctrSubAdd);
+          console.log(subList);
           $TblsecSub.find('tbody').append(append);
         }
 
 
         //saving the section data
         function saveData() {
-          // ibubutang so array sadi input hidden na subjects
-          // kukuunon na so mga data sadi form dapat kaiba na so subjects na array
-          // e coconsole log  na muna so mga data para mabayad iya
-          
 
           if (method == 'add') {
             $('input[name="subjects[]"]').val(subList);
@@ -275,11 +260,10 @@
                 data: dataEdit,
             })
             .done(function(data) {
-                //console.log("response from server edit section");
-                //console.log(data);
-                //alert(data);
                 alert("Section Updated");
+                $FormSec[0].reset();
                 tblSecReload();
+                $("#secSubTbody").empty();
             })
             .fail(function() {
                 console.log("error");
@@ -298,6 +282,7 @@
               if (res.status) {
                 alert('Record Deleted!');
                 tblSecReload();
+                window.location.reload();
               }
             });
           }
@@ -308,27 +293,25 @@
         var app = {
             init:function(){
                 $("#hrefSection").addClass('active');
-                /*teacherList();
-                subjectList();*/
-
-                //delegation btnRemoveSubject
                 $TblsecSub.unbind().on('click', 'button#removeSub', function(event){
                     event.preventDefault();
+                    
+                    var indxDel = $(this).data('indxeradd');
+
+                    alert(indxDel);
                     if (confirm("Remove Subject?")) {
+                      subList.splice(indxDel, 1);
                       $(this).closest('tr').fadeOut('slow');
-                      var index = $(this).data('subCtr');
-                      alert(index);  
+                      alert('Subject been deleted');  
+                      console.log(subList);
                     }
                 });
-
             }
         }
 
         //for datatable API 
         var table; 
-        // docReady function
         $(document).ready(function(){
-            //varApp Initialize
             app.init();
 
             //datatables
@@ -367,7 +350,6 @@
 
             });
 
-        //datatables function
         //reloading the datatables
         function tblSecReload() {
           table.ajax.reload(null,false);

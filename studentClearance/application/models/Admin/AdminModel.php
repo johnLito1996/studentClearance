@@ -30,31 +30,14 @@ class AdminModel extends CI_Model {
 
 	public function getAdminDat(){
 
-		$usrname = 'CesOrogo';
-		$pass = '100';
+		$usrname = $this->session->userdata('adminUserNameCrnt');
 
 			 $this->db->where('UserName', $usrname);
-			 $this->db->where('Password', $pass);
-		$Q = $this->db->get_where($this->tbl);
+		$Q = $this->db->get($this->tbl);
 
 		return $this->retObj($Q);
 	}
 
-/*	public function updateProfile(){
-
-	}
-
-	public function changePass(){
-
-	}
-
-	public function addAdmin(){
-
-	}
-
-	public function delAdmin(){
-
-	}*/
 }
 
 /* End of file AdminModel.php */

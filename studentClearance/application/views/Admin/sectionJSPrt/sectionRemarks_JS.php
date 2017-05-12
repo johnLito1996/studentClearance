@@ -16,7 +16,11 @@
     	$("#btnSecStuds, #btnSecSubs").removeAttr('disabled');
 
     	$secCode = secCode;
-		$("b#secName").text(secCode)
+		$("b#secName").text(secCode);
+
+        /*$("#studListRemarks").empty();
+        $("#secStuds").empty();
+        $("#secSubs").empty();*/
 
     }
 
@@ -148,12 +152,12 @@
     	var statusLength = ($('input[type="radio"]').length / 3)
     	var currentRemarks = $("form#frmStudRemarks").serializeArray();
 
-    	console.log("that the data in the form now");
+    	//console.log("that the data in the form now");
 
-    	alert(statusLength);
+    	//alert(statusLength);
 
     	var statusChecked = $('input[type="radio"]:checked').length;
-    	console.log("total radio checked: "+statusChecked);
+    	//console.log("total radio checked: "+statusChecked);
     	//return;
     	//currentRemarks.splice(0,1);
     	currentRemarks.shift();
@@ -188,7 +192,7 @@
     	fJson = JSON.stringify(fJson);
 
     	// javascript POST ARRAY :)
-    	console.log(fJson);
+    	//console.log(fJson);
     	if (searchMethod == "student") {
 
     		fJsonOut = {
@@ -220,7 +224,8 @@
     	})
     	.done(function(data) {
     		console.log("success");
-    		console.log(data);
+    		//console.log(data);
+            alert('Remarks Updated');
     	})
     	.fail(function() {
     		console.log("error");

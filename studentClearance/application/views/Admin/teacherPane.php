@@ -213,8 +213,10 @@
 
                     if (data.status) {
                         alert('Teaccher Record Updated');
-                        //teachListView();
-                        window.location.reload();
+                        teachListView();
+                        $teachForm[0].reset();
+                        $Modal.modal('hide');
+                        location.reload();
                     }
                     else{
                         alert('Teacher Record not Updated');

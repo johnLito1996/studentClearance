@@ -1,5 +1,5 @@
    <header class="header">
-        <a href="index.php" class="logo">
+        <a href="<?= site_url('index.php/AdminStudent'); ?>" class="logo">
             Student Clearance
         </a>
         <!-- Header Navbar: style can be found in header.less -->
@@ -25,7 +25,7 @@
 
                         <li class="divider"></li>
 
-                            <li>
+                            <li id="hrefUtil">
                             <!-- utility.php -->
                                 <a href="<?= site_url('index.php/AdminUtility') ?>">
                                 <!--fa-cog fa-fw-->

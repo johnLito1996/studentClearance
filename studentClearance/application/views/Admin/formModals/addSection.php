@@ -30,7 +30,6 @@
 	                  			<label> Track: </label>
 	                      		<select name="Track" id="secTrack" class="form-control cusInput">
 	                      			<option value="Academic">Academic</option>
-	                      			<option value="General">General</option>
 	                      			<option value="Sports">Sports</option>
 	                      			<option value="TVL">TVL</option>
 	                      		</select>

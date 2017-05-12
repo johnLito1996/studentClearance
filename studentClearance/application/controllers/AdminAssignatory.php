@@ -3,17 +3,17 @@
 class AdminAssignatory extends CI_Controller {
 
 	private $tbl = 'tbsignatory';
+	private $crntAdmin;
+
 	public function __construct()
 	{
 		parent::__construct();
 		$this->load->library('AdminLib');
-
-		//load the database
-		$this->load->database();
-
 		$this->load->model('Admin/SettingModel', 'setting');
+		$this->load->database();
 	}
 
+//checking data
 	private function dieRet($arr){
 
 		echo "<pre>";
@@ -21,6 +21,7 @@ class AdminAssignatory extends CI_Controller {
 		echo "</pre>";
 	}
 
+// return BOl
 	private function retBool($Q){
 
 		if($Q){
@@ -33,32 +34,39 @@ class AdminAssignatory extends CI_Controller {
 		echo json_encode(['data' => $Q]);
 
 	}
+
+//index page
 	public function index()
 	{
-		//load the view here in these controller	
-		$data['title'] = "Admin | Assignatory";
-		$data['scPic'] = $this->setting->schoolPic();
-		$this->load->view('Admin/signatoryPane',$data);
+		$adminID = $this->session->userdata('adminUserNameCrnt');
+		$this->crntAdmin = $adminID;
+
+		if (empty($this->crntAdmin)) {
+			show_404();
+		}
+		else{
+			$data['title'] = "Admin | Assignatory";
+			$data['scPic'] = $this->setting->schoolPic();
+			$this->load->view('Admin/signatoryPane',$data);
+		}
+		
 	}
 
-	//admin data
+//admin data
 	public function AdminDat(){
 		echo json_encode(['data' => $this->adminlib->getAdminDat()]);
 	}
 
-	//create new assignatory
+//create new assignatory
 	public function createAssig(){
-
 		$this->load->database();
 		//get the data
 		$Q = $this->db->insert($this->tbl, $_POST);
-		
 		$this->retBool($Q);
 		// creating the table prt here waiting to be html() in view 2ndOption
-
 	}
 
-	//delete assignatory
+//delete assignatory
 	public function delAssig($code){
 
 		$this->db->where('Signatory_code', $code);
@@ -66,9 +74,8 @@ class AdminAssignatory extends CI_Controller {
 		$this->retBool($Q);
 	}
 
-	//get the all data from the tbl
+//get the all assignatory datas from the tbl
 	public function getAssigDat(){
-
 		//ASC a-Z
 		//DESC Z-a
 		$this->db->order_by("Signatory_code", "ASC");

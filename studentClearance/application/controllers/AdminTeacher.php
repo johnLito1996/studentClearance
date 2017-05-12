@@ -4,20 +4,18 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 class AdminTeacher extends CI_Controller
 {
 	private $tbteacher = 'tbteacher';
+	private $crntAdmin;
+
 	function __construct()
 	{
 		parent::__construct();
-
-		//admin Library
 		$this->load->library('AdminLib');
-		// Setting of the App
 		$this->load->model('Admin/SettingModel', 'setting');
-		// load the database()
 		$this->load->database();
 
 	}
 
-	// private function to chkDatas
+// private function to chkDatas
 	private function chkData($Q)
 	{
 		echo "<pre>";
@@ -25,20 +23,29 @@ class AdminTeacher extends CI_Controller
 		echo "</pre>";
 	}
 
+// home
 	public function index(){
 
-		$data['scPic'] = $this->setting->schoolPic();
-		$data['imgPath'] = base_url();
-		$this->load->view('Admin/teacherPane', $data);
+		$adminID = $this->session->userdata('adminUserNameCrnt');
+		$this->crntAdmin = $adminID;
+
+		if (empty($this->crntAdmin)) {
+			show_404();
+		}
+		else{
+			$data['scPic'] = $this->setting->schoolPic();
+			$data['imgPath'] = base_url();
+			$this->load->view('Admin/teacherPane', $data);
+		}		
 
 	}
 
-	//admin data
+//admin data
 	public function AdminDat(){
 		echo json_encode(['data' => $this->adminlib->getAdminDat()]);
 	}
 
-	//new teachID
+//new teachID
 	public function newTeachId(){
 		//$res = $out[0]['Teacher_ID'];		
 
@@ -55,16 +62,25 @@ class AdminTeacher extends CI_Controller
 		echo json_encode(['id' => $out]);
 	}
 
-	//teacherList
+//teacherList
 	public function ajax_teach_list(){
 		
 		$this->db->order_by("Teacher_First_Name", "ASC");
-		$Q = $this->db->get_where($this->tbteacher, array('Status'=> 'Active'));
-
+		//$Q = $this->db->get_where($this->tbteacher, array('Status'=> 'Active'));
+		$Q = $this->db->get($this->tbteacher);
 		echo json_encode(['data' => $Q->result()]);
 	}
 
-	//savenewTeach
+// teachLIst in Section 
+	public function ajax_teach_list_sec()
+	{
+		$this->db->order_by("Teacher_Last_Name", "ASC");
+		$Q = $this->db->get_where($this->tbteacher, array('Status'=> 'Active'));
+		//$Q = $this->db->get($this->tbteacher);
+		echo json_encode(['data' => $Q->result()]);
+	}
+
+//savenewTeach
 	public function saveTeach($method){
 
 		if ($method == 'add') {
@@ -106,6 +122,7 @@ class AdminTeacher extends CI_Controller
 		
 	}
 
+// delete teacher
 	public function delTeachList($id){
 
 		$this->db->set(array('Status' => 'Non-Active'));
@@ -122,7 +139,7 @@ class AdminTeacher extends CI_Controller
 		echo json_encode(['status'=> $Q]);
 	}
 
-
+// getting Data of Teacher
 	public function getTeacherDat($teachID)
 	{
 		$Q = $this->db->get_where('tbteacher', array('Teacher_ID' => $teachID));

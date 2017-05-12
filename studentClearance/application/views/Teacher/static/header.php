@@ -24,7 +24,7 @@
                     <ul class="dropdown-menu dropdown-custom dropdown-menu-right">
 
                         <li class="divider"></li>
-                            <li>
+                            <li id="profileLi">
                             <!-- utility.php -->
                                 <a href="<?= site_url('index.php/Teacher/teacherProfile') ?>"> 
                                 <i class="fa fa-question pull-right"></i>

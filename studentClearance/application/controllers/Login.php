@@ -1,7 +1,6 @@
 <?php 
 defined('BASEPATH') OR exit('No direct script access allowed');
 
-	/* always check if the function is within the class dec */
 	class Login extends CI_Controller
 	{
 		private $tbl = ['tbadmin', 'tbteacher', 'tbstudent'];
@@ -9,9 +8,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 		function __construct()
 		{
 			parent::__construct();
-			$this->load->model('login/LoginModel', 'thismodel');
 			$this->load->model('Admin/SettingModel', 'setting');
-
 			$this->load->database();
 		}
 
@@ -33,6 +30,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 // validation of 3 account
 		public function validateAccount($usrType)
 		{
+			// if admin account Que
 			if ($usrType == 'admin') {
 				array_pop($_POST);
 				$adminDat = $_POST;
@@ -40,9 +38,15 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 				$Q = $this->db->get_where($this->tbl[0], $adminDat);
 				if ($Q->num_rows() == 1) {
 
-					$crntAdminUSrname = $Q->result()[0]->UserName;
-					$this->session->set_userdata('adminUserNameCrnt',$crntAdminUSrname);
-					echo json_encode(['admin' => true]);
+					if ($Q->result()[0]->status === 'active') {
+						$crntAdminUSrname = $Q->result()[0]->UserName;
+						$this->session->set_userdata('adminUserNameCrnt',$crntAdminUSrname);
+						echo json_encode(['admin' => true]);
+
+					}else{
+						echo json_encode(['admin' => false]);
+					}
+					
 				}
 				else{
 					echo json_encode(['admin' => false]);
@@ -50,7 +54,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 			}
 			elseif($usrType == 'teacher'){
-
+				// if teacher acc Que
 				array_pop($_POST);
 				$teachDat = $_POST;
 				$teachSql = "SELECT * FROM `tbteacher` WHERE `Username` = (?) AND `Password` = (?)";
@@ -71,11 +75,14 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 				}
 			}
 			else{
-				array_shift($_POST);
+				// if Student Pass Que
+				//array_shift($_POST);[$studDat]
 				array_pop($_POST);
-				$studDat = $_POST;
-				$SQL = "SELECT * FROM `tbstudent` WHERE `Password` = (?)";
-				$Q = $this->db->query($SQL, [$studDat]);
+				/*$studDat = $_POST;*/
+				$SQL = "SELECT * FROM `tbstudent` WHERE `Password` = (?) AND `Username` = (?)";
+				$Q = $this->db->query($SQL, [$_POST['Password'], $_POST['Username']]);
+
+				//$this->chkData($Q->result());
 				if ($Q->num_rows() == 1) {
 					$crntStudID = $Q->result()[0]->LRN_Number;
 					$this->session->set_userdata('studentLoginID',$crntStudID);
