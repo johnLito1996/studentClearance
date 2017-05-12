@@ -26,6 +26,7 @@
             method = 'add';
 
             subList.splice(0, subList.length);
+            ctrSubAdd = 0;
             $FormSec[0].reset();
            $Modal.modal({ 
                 backdrop:"static",
@@ -79,6 +80,7 @@
            $.get(url, function(data){
 
               data = $.parseJSON(data);
+
              var fName = data[0].Teacher_Last_Name + ", " + data[0].Teacher_First_Name +" "+ data[0].Teacher_MiddleInitial;
 
              var tblSecSubList;
@@ -213,11 +215,10 @@
           </tr>
           `;
 
-          ctrSubAdd += 1;
-
           console.log(ctrSubAdd);
           console.log(subList);
           $TblsecSub.find('tbody').append(append);
+          ctrSubAdd = ctrSubAdd + 1;
         }
 
 
@@ -295,15 +296,11 @@
                 $("#hrefSection").addClass('active');
                 $TblsecSub.unbind().on('click', 'button#removeSub', function(event){
                     event.preventDefault();
-                    
                     var indxDel = $(this).data('indxeradd');
-
-                    alert(indxDel);
                     if (confirm("Remove Subject?")) {
                       subList.splice(indxDel, 1);
                       $(this).closest('tr').fadeOut('slow');
                       alert('Subject been deleted');  
-                      console.log(subList);
                     }
                 });
             }

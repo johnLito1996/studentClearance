@@ -30,9 +30,10 @@ class Clearance extends CI_Controller {
 //get student list using secCOde
 	public function getStudentList($secCode)
 	{
+		$fsecCode = urldecode($secCode);
 		$sql = "call getSectionStudents(?)";
 
-		$Q = $this->db->query($sql, $secCode);
+		$Q = $this->db->query($sql, $fsecCode);
 
 
 		if ($Q->num_rows() > 0) {
@@ -85,8 +86,8 @@ class Clearance extends CI_Controller {
 //getting subject of the sec
 	public function getSubSec($secCode)
 	{
-
-		$Q = $this->db->get_where($this->secSub, array('Section_code' => $secCode));
+		$fsecCode = urldecode($secCode);
+		$Q = $this->db->get_where($this->secSub, array('Section_code' => $fsecCode));
 		echo json_encode(['data' => $Q->result()]);
 	}
 

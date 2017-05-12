@@ -128,11 +128,13 @@ class AdminSection extends CI_Controller {
 	//thats for now bukas naman happy coding :) EZ
 	public function getSectionSubjects($secCode, $teachID)
 	{
+		$fsecCode = urldecode($secCode);
+		$fteachID = urldecode($teachID);
 		//sectionDat
-		$QSec = $this->db->get_where('tbsection_query', array('Section_code'=> $secCode, 'Adviser' => $teachID));
+		$QSec = $this->db->get_where('tbsection_query', array('Section_code'=> $fsecCode, 'Adviser' => $fteachID));
 
 		//secSub
-		$QSecSub = $this->db->get_where('tbsubject_section', array('Section_code'=> $secCode, 'Teacher_ID'=> $teachID));
+		$QSecSub = $this->db->get_where('tbsubject_section', array('Section_code'=> $fsecCode, 'Teacher_ID'=> $fteachID));
 
 		$output = array_merge($QSec->result(), $QSecSub->result());
 		
@@ -222,9 +224,11 @@ class AdminSection extends CI_Controller {
 
 //deleting section
 	public function deleteSec($secCode, $teachId)
-	{
+	{	
+		$fsecCode = urldecode($secCode);
+		$fteachId = urldecode($teachId);
 		$sql = "call deleteSection(?, ?)";
-		$Q = $this->db->query($sql, array($secCode, $teachId));
+		$Q = $this->db->query($sql, array($fsecCode, $fteachId));
 
 		if ($Q) {
 			echo json_encode(['status' => true]);

@@ -90,22 +90,11 @@
 var url;
 var LRN = $("#student").text();
 var $remarksTBody = $("#remarksTBody");
+var section;
 
-  function getStudentData(){
-    url = "<?= site_url('index.php/Student/crntStudDat') ?>/"+LRN;
-    $.get(url, function(data){
-      data = $.parseJSON(data);
-      //console.log(data);
-      var ref = data.studDat[0];
-      var studName = ref.Last_Name+", "+ref.First_Name;
-      $("#teacherName").text(studName);
-      $("#teacherName").css('text-transform', 'capitalize');
-
-      var section = ref.Section_Code;
-      $("#secName").text(section);
-
-      $remarksTBody.empty();
-      url ="<?= site_url('index.php/Student/getSub_Remarks') ?>/"+LRN+"/"+section;
+  function getStudRemarks(lrn, secCode) {
+    $remarksTBody.empty();
+      url ="<?= site_url('index.php/Student/getSub_Remarks') ?>/"+LRN+"/"+secCode;
       $.get(url, function(data){
         data = $.parseJSON(data);
 
@@ -123,7 +112,23 @@ var $remarksTBody = $("#remarksTBody");
             $remarksTBody.append(trOw);
           });
       });
+  }
 
+
+  function getStudentData(){
+    url = "<?= site_url('index.php/Student/crntStudDat') ?>/"+LRN;
+    $.get(url, function(data){
+      data = $.parseJSON(data);
+      //console.log(data);
+      var ref = data.studDat[0];
+      var studName = ref.Last_Name+", "+ref.First_Name;
+      $("#teacherName").text(studName);
+      $("#teacherName").css('text-transform', 'capitalize');
+
+      section = ref.Section_Code;
+      $("#secName").text(section);
+
+      getStudRemarks(LRN, section);
     });
   }
 
@@ -132,6 +137,10 @@ var $remarksTBody = $("#remarksTBody");
        $("#profileLi").addClass('hideIt');
 
        getStudentData();
+
+       setInterval(function () {
+        getStudRemarks(LRN, section);
+       }, 200000);
    });
   </script>
 </body>

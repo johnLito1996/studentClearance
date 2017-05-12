@@ -18,16 +18,9 @@
     	$secCode = secCode;
 		$("b#secName").text(secCode);
 
-        /*$("#studListRemarks").empty();
-        $("#secStuds").empty();
-        $("#secSubs").empty();*/
-
     }
 
 // function remarks[using]Subjects
-/*	function secClearanceSub(subCode, secCode) {
-		// get the table here  just like in the student
-	}*/
     function remarksRadio(status, i) {
 
     	switch(status) {
