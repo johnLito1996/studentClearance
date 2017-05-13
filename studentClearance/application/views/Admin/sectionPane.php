@@ -6,9 +6,9 @@
   <?php include_once('static/head.php'); ?>
   
   <!-- custom datatables -->
-  <link rel="stylesheet" type="text/css" href="<?= base_url('assets/custom/datatablesNew/css/dataTables.bootstrap.css'); ?>">
+  <link rel="stylesheet" type="text/css" href="<?= base_url('assets/custom/datatablesnew/css/dataTables.bootstrap.css'); ?>">
 
-  <link rel="stylesheet" type="text/css" href="<?= base_url('assets/custom/datatablesNew/css/jquery.dataTables.min.css'); ?>">
+  <link rel="stylesheet" type="text/css" href="<?= base_url('assets/custom/datatablesnew/css/jquery.datatables.min.css'); ?>">
 
   <!-- custom css below -->
   <link rel="stylesheet" type="text/css" href="<?= base_url('assets/template/css/custom/teacher.css'); ?>">
@@ -83,10 +83,21 @@
                     <!-- ./row end -->
 
                     <div class="row">                    
-                         <div class="col-md-11 col-lg-11" style="margin-top: 7px;">
+                         <div class="col-md-12 col-lg-12" style="margin-top: 7px;">
                             <div class="panel">
                                 <div class="panel-body">
                                     <table class="table table-hover" id="tblSec1">
+                                    <thead>
+                                        <tr>
+                                            <th>SECTION CODE</th>
+                                            <th>TRACK</th>
+                                            <th>STRAND</th>
+                                            <th>ROOM NUMBER</th>
+                                            <th>GRADE LEVEL</th>
+                                            <th>SCHEDULE</th>
+                                            <th>Action</th>
+                                        </tr>
+                                    </thead>
                                     </table>
                                 </div>
                                 <!-- /.box-body -->
@@ -190,13 +201,13 @@
     <?php include_once('static/adminjs.php'); ?>
     
     <!-- sectionRemarks Process -->
-    <?php include_once('sectionJSPrt/sectionRemarks_JS.php'); ?>
+    <?php include_once('sectionjsprt/sectionremarks_js.php'); ?>
 
     <!-- custom for datatables -->
-    <script src="<?= base_url('assets/custom/datatablesNew/js/jquery.dataTables.min.js'); ?>"></script>
-    <script src="<?= base_url('assets/custom/datatablesNew/js/dataTables.bootstrap.js'); ?>"></script>
+    <script src="<?= base_url('assets/custom/datatablesnew/js/jquery.datatables.min.js'); ?>"></script>
+    <script src="<?= base_url('assets/custom/datatablesnew/js/datatables.bootstrap.js'); ?>"></script>
     
     <!-- section function currently -->
-    <?php include_once('sectionJSPrt/sectionFunctionJs.php') ?>
+    <?php include_once('sectionjsprt/sectionfunctionjs.php') ?>
 </body> 
 </html>

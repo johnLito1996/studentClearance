@@ -10,7 +10,7 @@
 //constant DVAR
     var crntTeachID = $("#teachID").text();
         function getTeacherDat(){
-            url = "<?= site_url('index.php/Teacher/crntLoginTeachDAt') ?>/"+crntTeachID;
+            url = "<?= site_url('index.php/teacher/crntloginteachdAt') ?>/"+crntTeachID;
             $.get(url, function(tDat){
                 tDat = $.parseJSON(tDat);
 
@@ -29,7 +29,7 @@
             table = $("table#tblTeachSection").DataTable({
                   "bFilter":false,
                   "ajax":{
-                      "url":"<?= site_url('index.php/Teacher/ajax_sec_list_byTeach'); ?>/"+crntTeachID,
+                      "url":"<?= site_url('index.php/teacher/ajax_sec_list_byteach'); ?>/"+crntTeachID,
                       "type":"POST"
                   },//ajax propeties with object JSON data
                   "columns":[

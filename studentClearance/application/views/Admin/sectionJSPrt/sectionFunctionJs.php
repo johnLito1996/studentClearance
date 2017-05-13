@@ -74,13 +74,16 @@
            subjectList();
            $TblsecSub.find('tbody').empty();
 
-           url = "<?= site_url('index.php/AdminSection/getSectionSubjects') ?>/"+ secCode + "/" + TID;
+           url = "<?= site_url('index.php/adminsection/getsectionsubjects') ?>/"+ secCode + "/" + TID;
 
            var opt;
            $.get(url, function(data){
 
               data = $.parseJSON(data);
 
+/*              console.log(data);
+
+              return;*/
              var fName = data[0].Teacher_Last_Name + ", " + data[0].Teacher_First_Name +" "+ data[0].Teacher_MiddleInitial;
 
              var tblSecSubList;
@@ -148,7 +151,7 @@
         // section adviser
         function teacherList() {
           var $secAdviser = $("select#secAdviser");
-          url = "<?= site_url('index.php/AdminTeacher/ajax_teach_list_sec') ?>";
+          url = "<?= site_url('index.php/Adminteacher/ajax_teach_list_sec') ?>";
           $.get(url, function(data){
 /*            console.log(data); jsonString
 */            data = $.parseJSON(data);
@@ -173,7 +176,7 @@
           //getData
           //updateDom
           var $Subject_Code = $("select#Subject_Code");
-          url = "<?= site_url('index.php/AdminSection/subjectList') ?>";
+          url = "<?= site_url('index.php/adminsection/subjectlist') ?>";
 
           $.get(url, function(data) {
             //console.log(data);
@@ -227,7 +230,7 @@
             $('input[name="subjects[]"]').val(subList);
             var data = $FormSec.serializeArray();
 
-            url = "<?= site_url('index.php/AdminSection/saveSection'); ?>/add";
+            url = "<?= site_url('index.php/adminsection/savesection'); ?>/add";
             $.post(url, data, function(response){
               response = $.parseJSON(response);
               if(response.status == 'duplicate'){
@@ -249,7 +252,7 @@
 
             $('input[name="subjects[]"]').val(FSubList);
             var dataEdit = $FormSec.serializeArray();
-            var editUrl = "<?= site_url('index.php/AdminSection/saveSection'); ?>/edit";
+            var editUrl = "<?= site_url('index.php/adminsection/savesection'); ?>/edit";
 
             //alert(method);
             //console.log(dataEdit);
@@ -276,7 +279,7 @@
 
         //delete Section
         function delSec(secCode, teachId) {
-          url = "<?= site_url('index.php/AdminSection/deleteSec') ?>/"+secCode+"/"+teachId;
+          url = "<?= site_url('index.php/adminsection/deletesec') ?>/"+secCode+"/"+teachId;
           if (confirm('Delete the Section?')) {
             $.get(url, function(res){
               res = $.parseJSON(res);
@@ -311,8 +314,7 @@
         $(document).ready(function(){
             app.init();
 
-            //datatables
-            table = $("table#tblSec1").DataTable({
+                    table = $("table#tblSec1").DataTable({
 
                     /*key:value pairs_ JSON formated*/
                     "bInfo" : false,
@@ -321,7 +323,7 @@
                     "order":[],
                     "ajax":{
 
-                        "url":"<?php echo site_url('index.php/AdminSection/ajax_sec_list') ?>",
+                        "url":"<?= site_url('index.php/adminsection/ajax_sec_list') ?>",
                         "type":"POST"
                     },//ajax propeties with object JSON data
 
@@ -344,6 +346,7 @@
                     ]
 
                 });
+
 
             });
 

@@ -1,6 +1,6 @@
 <?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 
-class AdminAssignatory extends CI_Controller {
+class Adminassignatory extends CI_Controller {
 
 	private $tbl = 'tbsignatory';
 	private $crntAdmin;
@@ -53,12 +53,12 @@ class AdminAssignatory extends CI_Controller {
 	}
 
 //admin data
-	public function AdminDat(){
+	public function admindat(){
 		echo json_encode(['data' => $this->adminlib->getAdminDat()]);
 	}
 
 //create new assignatory
-	public function createAssig(){
+	public function createassig(){
 		$this->load->database();
 		//get the data
 		$Q = $this->db->insert($this->tbl, $_POST);
@@ -67,7 +67,7 @@ class AdminAssignatory extends CI_Controller {
 	}
 
 //delete assignatory
-	public function delAssig($code){
+	public function delassig($code){
 
 		$this->db->where('Signatory_code', $code);
 		$Q = $this->db->delete($this->tbl);
@@ -75,7 +75,7 @@ class AdminAssignatory extends CI_Controller {
 	}
 
 //get the all assignatory datas from the tbl
-	public function getAssigDat(){
+	public function getassigdat(){
 		//ASC a-Z
 		//DESC Z-a
 		$this->db->order_by("Signatory_code", "ASC");

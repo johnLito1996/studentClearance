@@ -117,7 +117,7 @@
         //current teachID
         function TeachlastId(){
             //event delegation nung add of button
-            $.get("<?= site_url('index.php/AdminTeacher/newTeachId'); ?>", function(data, textStatus) {
+            $.get("<?= site_url('index.php/adminteacher/newteachid'); ?>", function(data, textStatus) {
                 data = $.parseJSON(data);
                 $("input#teachID").val(data.id);
             });
@@ -126,12 +126,12 @@
         //list teacher
         function teachListView(){
 
-            url = "<?= site_url('index.php/AdminTeacher/ajax_teach_list'); ?>";
+            url = "<?= site_url('index.php/adminteacher/ajax_teach_list'); ?>";
             $.get(url, function(data){  
                 //console.log(data);
                 data = $.parseJSON(data);
 
-                console.log(data.data);
+                //console.log(data.data);
 
                 $.each(data.data, function(i, obj){
                     //console.log(i, 'data'+obj.Teacher_ID);
@@ -179,7 +179,7 @@
         function saveData(){
 
             if(method == 'add'){
-                var url = "<?= site_url('index.php/AdminTeacher/saveTeach') ?>/"+method;        
+                var url = "<?= site_url('index.php/adminteacher/saveteach') ?>/"+method;        
                 var frmData = $("form#teachForm").serializeArray();
 
                 $.ajax({
@@ -194,6 +194,7 @@
                         alert('Data has successfully added!');
                         $teachList.empty();
                         teachListView();
+                        $Modal.modal('hide');
                     },
                     error:function(reQuest, errType, errMsg){
                         alert('Error:' + errType + 'Message:' + errMsg);
@@ -204,7 +205,7 @@
 
                 //alert(method);
 
-                var url = "<?= site_url('index.php/AdminTeacher/saveTeach') ?>/"+method;
+                var url = "<?= site_url('index.php/adminteacher/saveteach') ?>/"+method;
                 var data = $teachForm.serializeArray();
                 data.pop();
                 $.post(url, data, function(data, textStatus, xhr) {
@@ -238,7 +239,7 @@
 
                 var id = $(this).data('tnum');
                 //var url = "<?= site_url('index.php/AdminTeacher/delTeachList'); ?>/"+id;
-                var url = "<?= site_url('index.php/AdminTeacher/getTeacherDat') ?>/"+id;
+                var url = "<?= site_url('index.php/adminteacher/getteacherdat') ?>/"+id;
                 method = 'edit';
                    $teachForm[0].reset();
                    $Modal.modal({ 
@@ -251,6 +252,7 @@
                    $.get(url, function(tDat){
                         tDat = $.parseJSON(tDat);
 
+                       // console.log(tDat);
                         var teachDat = tDat.teachDAt[0];
                         $Teacher_First_Name.val(teachDat.Teacher_First_Name);
                         $Teacher_MiddleInitial.val(teachDat.Teacher_MiddleInitial);

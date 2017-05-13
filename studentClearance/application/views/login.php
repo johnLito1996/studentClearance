@@ -203,14 +203,14 @@
             $FORMLOGIN.bootstrap3Validate(function (e) {
               e.preventDefault();
               //$FORMLOGIN.attr('action', )
-               url = "<?= site_url('index.php/Login/validateAccount') ?>/"+typeAcc;
+               url = "<?= site_url('index.php/login/validateaccount') ?>/"+typeAcc;
                data = $FORMLOGIN.serializeArray();
                 if (typeAcc == 'admin') {
                   
                   $.post(url,  data, function(response){
                     response = $.parseJSON(response);
                     if (response.admin) {
-                        url = "<?= site_url('index.php/AdminStudent') ?>";
+                        url = "<?= site_url('index.php/adminstudent') ?>";
                         location.href = url;
                     }
                     else{
@@ -223,7 +223,7 @@
                   $.post(url,  data,function(response){
                     response = $.parseJSON(response);
                     if (response.teacher) {
-                        url = "<?= site_url('index.php/Teacher') ?>";
+                        url = "<?= site_url('index.php/teacher') ?>";
                         location.href = url;                   
                     }
                     else{
@@ -236,7 +236,7 @@
                   $.post(url,  data,function(response){
                     response = $.parseJSON(response);
                     if (response.student) {
-                        url = "<?= site_url('index.php/Student') ?>";
+                        url = "<?= site_url('index.php/student') ?>";
                         location.href = url; 
                     }
                     else{

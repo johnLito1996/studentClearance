@@ -4,7 +4,7 @@
         var url;
 
         function getAdminDat(){
-            url = "<?= site_url('index.php/AdminTeacher/AdminDat'); ?>";
+            url = "<?= site_url('index.php/adminteacher/admindat'); ?>";
             $.get(url,function(response){
                 
                response = $.parseJSON(response);

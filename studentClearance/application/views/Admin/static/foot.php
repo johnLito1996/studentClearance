@@ -5,4 +5,4 @@
     <!-- Bootstrap -->
     <script src="<?= base_url('assets/template/js/bootstrap.min.js'); ?>" type="text/javascript"></script>
     <!-- Director App -->
-    <script src="<?= base_url('assets/template/js/Director/app.js'); ?>" type="text/javascript"></script>
+    <script src="<?= base_url('assets/template/js/director/app.js'); ?>" type="text/javascript"></script>

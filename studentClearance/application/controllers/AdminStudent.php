@@ -1,6 +1,6 @@
 <?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 
-class AdminStudent extends CI_Controller {
+class Adminstudent extends CI_Controller {
 
 	private $studTbl = 'tbstudent';
 	private $crntAdmin;
@@ -43,12 +43,12 @@ class AdminStudent extends CI_Controller {
 	}
 
 	//admin data
-	public function AdminDat(){
+	public function admindat(){
 		echo json_encode(['data' => $this->adminlib->getAdminDat()]);
 	}
 
 // datatable students
-	public function getStudentList()
+	public function getstudentlist()
 	{
 		//studentModel
 		$list = $this->studentModel->get_dTables_list_students();
@@ -94,7 +94,7 @@ class AdminStudent extends CI_Controller {
 
 
 // fetching student data to be editid
-	public function getStudentdata($LRN)
+	public function getstudentdata($LRN)
 	{
 		$Q = $this->db->get_where("tbenrolled_query", array('LRN_number' => $LRN));
 
@@ -103,7 +103,7 @@ class AdminStudent extends CI_Controller {
 
 
 // saving and editing student
-	public function saveStudent($method)
+	public function savestudent($method)
 	{
 		if ($method == 'add') {
 
@@ -220,7 +220,7 @@ class AdminStudent extends CI_Controller {
 		
 	}
 
-	public function getClassMates($secCode)
+	public function getclassmates($secCode)
 	{
 		$tbl = 'tbenrolled_query';
 

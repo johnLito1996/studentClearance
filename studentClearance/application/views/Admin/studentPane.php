@@ -6,9 +6,9 @@
   <?php include_once('static/head.php'); ?>
   
   <!-- custom datatables -->
-  <link rel="stylesheet" type="text/css" href="<?= base_url('assets/custom/datatablesNew/css/dataTables.bootstrap.css'); ?>">
+  <link rel="stylesheet" type="text/css" href="<?= base_url('assets/custom/datatablesnew/css/datatables.bootstrap.css'); ?>">
 
-  <link rel="stylesheet" type="text/css" href="<?= base_url('assets/custom/datatablesNew/css/jquery.dataTables.min.css'); ?>">
+  <link rel="stylesheet" type="text/css" href="<?= base_url('assets/custom/datatablesnew/css/jquery.datatables.min.css'); ?>">
 
   <!-- custom css below -->
   <link rel="stylesheet" type="text/css" href="<?= base_url('assets/template/css/custom/teacher.css'); ?>">
@@ -100,15 +100,15 @@
                 </section><!-- ./content -->
             </div><!-- ./right-side -->
     </div>
-    <?php include('formModals/addStudent.php'); ?>
+    <?php include('formmodals/addstudent.php'); ?>
     <!-- ./frmModal -->
 
     <?php include_once('static/foot.php'); ?>
     <?php include_once('static/adminjs.php'); ?>
 
     <!-- custom for datatables -->
-    <script src="<?= base_url('assets/custom/datatablesNew/js/jquery.dataTables.min.js'); ?>"></script>
-    <script src="<?= base_url('assets/custom/datatablesNew/js/dataTables.bootstrap.js'); ?>"></script>
+    <script src="<?= base_url('assets/custom/datatablesnew/js/jquery.datatables.min.js'); ?>"></script>
+    <script src="<?= base_url('assets/custom/datatablesnew/js/datatables.bootstrap.js'); ?>"></script>
 
     <script type="text/javascript">
       $("#hrefStudent").addClass('active');
@@ -163,7 +163,7 @@
       }
 
       function sectionListDrop() {
-        url = "<?= site_url('index.php/AdminSection/currentSecList') ?>/"+"studSecList";
+        url = "<?= site_url('index.php/adminsection/currentsecList') ?>/"+"studseclist";
         $.ajax({
           url: url,
           type: 'GET',
@@ -183,7 +183,7 @@
       function editStudent(LRN) {
         // get the data of Student base in the view 
         // supply it to the DOM NODe
-        url = "<?= site_url('index.php/AdminStudent/getStudentdata') ?>/"+LRN;
+        url = "<?= site_url('index.php/adminstudent/getstudentdata') ?>/"+LRN;
 
         $.get(url, function(data){
           data = $.parseJSON(data);
@@ -232,16 +232,16 @@
 
         if (method == 'add') {
             // ajax request for the student adding
-            url = "<?= site_url('index.php/AdminStudent/saveStudent') ?>/add";
+            url = "<?= site_url('index.php/adminstudent/savestudent') ?>/add";
 
             data = $FormSec.serializeArray();
 
-            console.log(data);
+            //console.log(data);
 
             $.post(url, data, function(res){
               res = $.parseJSON(res);
 
-              console.log(res.status);
+              //console.log(res.status);
 
               if (res.status) {
                 alert("Student Added");
@@ -260,7 +260,7 @@
             data = $FormSec.serializeArray();
             data[7].value = secCodeEdit;
 
-            url = "<?= site_url('index.php/AdminStudent/saveStudent') ?>/edit";
+            url = "<?= site_url('index.php/adminstudent/savestudent') ?>/edit";
 
             $.post(url, data, function(res){
               res = $.parseJSON(res);
@@ -296,7 +296,7 @@
                   "order":[],
                   "ajax":{
 
-                      "url":"<?php echo site_url('index.php/AdminStudent/getStudentList') ?>",
+                      "url":"<?php echo site_url('index.php/adminstudent/getstudentlist') ?>",
                       "type":"POST"
                   },//ajax propeties with object JSON data
 
@@ -323,13 +323,13 @@
               });
 
           // delegation in the student classmates part
-          $("div#conSelectSection").on('change', 'select#studSecList', function(evt){
+          $("div#conSelectSection").on('change', 'select#studseclist', function(evt){
             evt.preventDefault();
               $ULClassmates = $("ul#classmatesList");
               $ULClassmates.empty();
               var crntSec = $(this).val();
               // ajax get call and append it to the ul in the classmates
-              url = "<?= site_url('index.php/AdminStudent/getClassMates')?>/"+crntSec;
+              url = "<?= site_url('index.php/adminstudent/getclassmates')?>/"+crntSec;
               $.get(url, function(lis){
                 $ULClassmates.append(lis);
 

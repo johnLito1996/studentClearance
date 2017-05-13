@@ -5,7 +5,7 @@
     <title> Admin | Teacher </title>
 	<?php include_once('static/head.php'); ?>
 	<!-- custom css below -->
-	<link rel="stylesheet" type="text/css" href="<?= base_url('assets/custom/css/utilityCss.css'); ?>">
+	<link rel="stylesheet" type="text/css" href="<?= base_url('assets/custom/css/utilitycss.css'); ?>">
     <style type="text/css">
         .chk{
             border:thin solid blue;
@@ -223,7 +223,7 @@
         var oldpass;
         function getAdminAcc() {
             
-            url = "<?= site_url('index.php/AdminUtility/getAdminAccount') ?>";
+            url = "<?= site_url('index.php/adminutility/getadminaccount') ?>";
             $.ajax({
                 url: url,
                 type: 'GET',
@@ -255,7 +255,7 @@ var $NewUsername = $("#nUsername");
                 }
                 else{
                     
-                    url = "<?= site_url('index.php/AdminUtility/saveAdmin') ?>"
+                    url = "<?= site_url('index.php/adminutility/saveadmin') ?>"
                     $.post(url, data, function(data, textStatus, xhr) {
 
                         data = $.parseJSON(data);
@@ -273,7 +273,7 @@ var $NewUsername = $("#nUsername");
         }
 
         function getOldPass() {
-          var url = "<?= site_url('index.php/AdminTeacher/AdminDat'); ?>";
+          var url = "<?= site_url('index.php/adminteacher/admindat'); ?>";
             $.get(url, function(data){
               data = $.parseJSON(data);
               oldPass = data.data[0].Password;
@@ -294,7 +294,7 @@ var $NewUsername = $("#nUsername");
                   password:newPass
                 }*/
 
-            url = "<?= site_url('index.php/AdminUtility/changeAdminPass') ?>/"+usrname+"/"+newPass;
+            url = "<?= site_url('index.php/adminutility/changeadminpass') ?>/"+usrname+"/"+newPass;
                 $.post(url, function(res){
                   res = $.parseJSON(res);
                   //console.log(res);
@@ -325,7 +325,7 @@ var $NewUsername = $("#nUsername");
                 var crntusrname = crntBtn.data('crntusrname');
                 var statBadge = $(this).closest('tr').find('td > center > span.badge');
                 
-                url = "<?= site_url('index.php/AdminUtility/changeStatusAdmin'); ?>/"+crntusrname+"/"+crntstatus;
+                url = "<?= site_url('index.php/adminutility/changestatusadmin'); ?>/"+crntusrname+"/"+crntstatus;
                 
                 if (crntstatus === 'active') {
                   //console.log('change to diactive badge and active button');

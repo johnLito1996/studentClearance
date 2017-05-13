@@ -7,14 +7,12 @@
 
     <!-- custom css -->
     <link rel="stylesheet" type="text/css" href="<?= base_url('assets/template/css/custom/teacher.css'); ?>">
-    <?php include('Teacher/static/common_css.php'); ?>    
+    <?php include('teacher/static/common_css.php'); ?>    
 </head>
 <body class="skin-black">
-	<?php include('Teacher/static/header.php') ?>
+	<?php include('teacher/static/header.php') ?>
 	
 	<div class="wrapper row-offcanvas row-offcanvas-left">
-            <!-- Left side column. contains the logo and sidebar -->
-            <?php //include('static/sidebar.php'); ?>
 
             <!-- Right side column. Contains the navbar and content of the page -->
             <div class="right-side">
@@ -67,7 +65,7 @@
                 </section>
             </div>
         </div><!-- ./wrapper -->
-	<?php include_once('Teacher/static/foot.php') ?>
+	<?php include_once('teacher/static/foot.php') ?>
 
   <script>
 
@@ -82,6 +80,9 @@
 
       case "DRP":
       return `<span class="label label-danger">DROP</span>`;
+
+      default:
+      return `<span class="label label-info"> Un remarks </span>`;
     }
 
   }
@@ -94,11 +95,10 @@ var section;
 
   function getStudRemarks(lrn, secCode) {
     $remarksTBody.empty();
-      url ="<?= site_url('index.php/Student/getSub_Remarks') ?>/"+LRN+"/"+secCode;
+      url ="<?= site_url('index.php/student/getsub_remarks') ?>/"+LRN+"/"+secCode;
       $.get(url, function(data){
         data = $.parseJSON(data);
 
-        //console.log(data);
           $.each(data.remarks, function(i, obj){
             var status = remarksStatus(obj.Status);
             var rowNum = (i+1);
@@ -116,7 +116,7 @@ var section;
 
 
   function getStudentData(){
-    url = "<?= site_url('index.php/Student/crntStudDat') ?>/"+LRN;
+    url = "<?= site_url('index.php/student/crntstuddat') ?>/"+LRN;
    // alert(LRN);
     $.get(url, function(data){
       data = $.parseJSON(data);

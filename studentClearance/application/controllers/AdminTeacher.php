@@ -1,7 +1,7 @@
 <?php 
 defined('BASEPATH') OR exit('No direct script access allowed');
 
-class AdminTeacher extends CI_Controller
+class Adminteacher extends CI_Controller
 {
 	private $tbteacher = 'tbteacher';
 	private $crntAdmin;
@@ -41,12 +41,12 @@ class AdminTeacher extends CI_Controller
 	}
 
 //admin data
-	public function AdminDat(){
+	public function admindat(){
 		echo json_encode(['data' => $this->adminlib->getAdminDat()]);
 	}
 
 //new teachID
-	public function newTeachId(){
+	public function newteachid(){
 		//$res = $out[0]['Teacher_ID'];		
 
 		$sql = "call TeachlastTID()"; 
@@ -81,7 +81,7 @@ class AdminTeacher extends CI_Controller
 	}
 
 //savenewTeach
-	public function saveTeach($method){
+	public function saveteach($method){
 
 		if ($method == 'add') {
 
@@ -123,7 +123,7 @@ class AdminTeacher extends CI_Controller
 	}
 
 // delete teacher
-	public function delTeachList($id){
+	public function delteachlist($id){
 
 		$this->db->set(array('Status' => 'Non-Active'));
 		$this->db->where('Teacher_ID', $id);
@@ -140,7 +140,7 @@ class AdminTeacher extends CI_Controller
 	}
 
 // getting Data of Teacher
-	public function getTeacherDat($teachID)
+	public function getteacherdat($teachID)
 	{
 		$Q = $this->db->get_where('tbteacher', array('Teacher_ID' => $teachID));
 		//$this->chkData($Q->result());

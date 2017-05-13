@@ -10,6 +10,6 @@
     <!-- jquiry UI -->
     <link rel="stylesheet" type="text/css" href="<?= base_url('assets/template/css/jquery-ui.min.css'); ?>">
     <!-- Extra css -->
-    <link href='<?= base_url('assets/template/css/Extracss.css'); ?>' rel='stylesheet' type='text/css'>
+    <link href='<?= base_url('assets/template/css/extracss.css'); ?>' rel='stylesheet' type='text/css'>
     <!-- custom1 css -->
     <link href="<?= base_url('assets/template/css/style.css'); ?>" rel="stylesheet" type="text/css" />

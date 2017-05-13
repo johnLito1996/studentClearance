@@ -7,7 +7,7 @@ class Admin extends CI_Controller {
 	public function __construct()
 	{
 		parent::__construct();
-		$this->load->databse();
+		$this->load->database();
 	}
 
 	private function returnBool($Q){
@@ -20,7 +20,7 @@ class Admin extends CI_Controller {
 	}
 
 // identify the super admin account
-	public function isSuperAdmin($adminAcc)
+	public function issuperadmin($adminAcc)
 	{
 		$where = array(
 			'UserName' => $adminAcc['UserName'],
@@ -41,7 +41,7 @@ class Admin extends CI_Controller {
 	}
 
 // delete admin account
-	public function removeAdmin($adminAcc)
+	public function removeadmin($adminAcc)
 	{
 		$where = array(
 			'UserName' => $adminAcc['UserName'],
@@ -54,7 +54,7 @@ class Admin extends CI_Controller {
 	}
 
 // get admin data
-	public function getAdminDat($adminAcc)
+	public function getadmindat($adminAcc)
 	{
 		$where = array(
 			'UserName' => $adminAcc['UserName'],

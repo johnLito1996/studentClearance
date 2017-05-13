@@ -11,24 +11,24 @@
         <!-- sidebar menu: : style can be found in sidebar.less -->
         <ul class="sidebar-menu">
             <li id="hrefStudent">
-                <a href="<?= site_url('index.php/AdminStudent'); ?>">
+                <a href="<?= site_url('index.php/adminstudent'); ?>">
                     <i class="fa fa-graduation-cap"></i> <span>Student</span>
                 </a>
             </li>
             <li id="hrefTeacher">
-                <a href="<?= site_url('index.php/AdminTeacher'); ?>">
+                <a href="<?= site_url('index.php/adminteacher'); ?>">
                     <i class="fa fa-group"></i> <span>Teacher</span>
                 </a>
             </li>
 
             <li id="hrefSection">
-                <a href="<?= site_url('index.php/AdminSection'); ?>">
+                <a href="<?= site_url('index.php/adminsection'); ?>">
                     <i class="fa fa-list-ol"></i> <span>Section</span>
                 </a>
             </li>
 
             <li id="hrefAssig">
-                <a href="<?= site_url('index.php/AdminAssignatory'); ?>">
+                <a href="<?= site_url('index.php/adminassignatory'); ?>">
                     <i class="fa fa-weixin"></i> <span>Assignatory</span>
                 </a>
             </li>

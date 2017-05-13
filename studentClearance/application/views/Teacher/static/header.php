@@ -1,5 +1,5 @@
    <header class="header">
-        <a href="<?= site_url('index.php/Teacher'); ?>" class="logo">
+        <a href="<?= site_url('index.php/teacher'); ?>" class="logo">
             Student Clearance
         </a>
         <!-- Header Navbar: style can be found in header.less -->
@@ -26,7 +26,7 @@
                         <li class="divider"></li>
                             <li id="profileLi">
                             <!-- utility.php -->
-                                <a href="<?= site_url('index.php/Teacher/teacherProfile') ?>"> 
+                                <a href="<?= site_url('index.php/teacher/teacherprofile') ?>"> 
                                 <i class="fa fa-question pull-right"></i>
                                    <!--  <b>Profile</b> -->
                                     <b>Profile</b>
@@ -36,7 +36,7 @@
                             <li class="divider"></li>
 
                             <li>
-                                <a href="<?= site_url('index.php/Login'); ?>"><i class="fa fa-ban fa-fw pull-right"></i> <b>Logout</b></a>
+                                <a href="<?= site_url('index.php/login'); ?>"><i class="fa fa-ban fa-fw pull-right"></i> <b>Logout</b></a>
                         </li>
                     </ul>
                 </li>

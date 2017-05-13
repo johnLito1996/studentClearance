@@ -1,7 +1,7 @@
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
 
-class AdminSection extends CI_Controller {
+class Adminsection extends CI_Controller {
 
 	// section tbl 
 	private $tblSection = 'tbsection';
@@ -41,7 +41,7 @@ class AdminSection extends CI_Controller {
 	}
 
 // get the name of teacher using his/ her ID
-	private function getTeacher($teacherID, $secCode)
+	private function getteacher($teacherID, $secCode)
 	  {
 	    $tblSecTeachV = 'tbteachersec';
 
@@ -117,7 +117,7 @@ class AdminSection extends CI_Controller {
 
 // get the current subjects of the section in now
 //list priority
-	public function subjectList()
+	public function subjectlist()
 	{ 	$tblSubjects = 'tbsubject_list';
 
 		//$this->db->order_by("Subject_Code", "ASC");//Subject_Description
@@ -128,10 +128,11 @@ class AdminSection extends CI_Controller {
 
 
 	//thats for now bukas naman happy coding :) EZ
-	public function getSectionSubjects($secCode, $teachID)
+	public function getsectionsubjects($secCode, $teachID)
 	{
 		$fsecCode = urldecode($secCode);
 		$fteachID = urldecode($teachID);
+
 		//sectionDat
 		$QSec = $this->db->get_where('tbsection_query', array('Section_code'=> $fsecCode, 'Adviser' => $fteachID));
 
@@ -140,7 +141,10 @@ class AdminSection extends CI_Controller {
 
 		$output = array_merge($QSec->result(), $QSecSub->result());
 		
-		echo json_encode($output); 
+		if (($QSec) || ($QSecSub)) {
+			echo json_encode($output); 
+		}
+		
 	}
 
 //checking data
@@ -153,7 +157,7 @@ class AdminSection extends CI_Controller {
 	}
 
 // saving section edit or add new one
-	public function saveSection($method)
+	public function savesection($method)
 	{
 
 		if ($method == 'add') {
@@ -225,7 +229,7 @@ class AdminSection extends CI_Controller {
 	}
 
 //deleting section
-	public function deleteSec($secCode, $teachId)
+	public function deletesec($secCode, $teachId)
 	{	
 		$fsecCode = urldecode($secCode);
 		$fteachId = urldecode($teachId);
@@ -243,7 +247,7 @@ class AdminSection extends CI_Controller {
 
 // additional functions
 // ajax to get the current section list
-	public function currentSecList($selectName)
+	public function currentseclist($selectName)
 	{
 		$this->db->select('Section_code');
 		$this->db->order_by('Section_code', 'DESC');

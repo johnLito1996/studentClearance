@@ -29,7 +29,7 @@ class Teacher extends CI_Controller {
 	}
 
 //getThe Data of teacher Currently Login
-	public function crntLoginTeachDAt($teacherID)
+	public function crntloginteachdat($teacherID)
 	{
 		$teachDAT = $this->db->get_where($this->teachTBL, array('Teacher_ID' => $teacherID));
 
@@ -47,7 +47,7 @@ class Teacher extends CI_Controller {
 	}
 
 // datatable for section by teacher
-	public function ajax_sec_list_byTeach($tID){
+	public function ajax_sec_list_byteach($tID){
 
 		$this->db->select(array('Section_code', 'Track', 'Strand', 'Room_Number', 'Grade_level', 'Shift_Sched'));
 			 $this->db->order_by('Section_code', 'DESC');
@@ -88,7 +88,7 @@ class Teacher extends CI_Controller {
 	}//e()
 
 //teacherProfile
-	public function teacherProfile()
+	public function teacherprofile()
 	{
 		$data['scPic'] = $this->setting->schoolPic();
 		$data['teacherLoginID'] = $this->crntTID;
@@ -96,7 +96,7 @@ class Teacher extends CI_Controller {
 	}
 
 // saveChangeTeacher Acc
-	public function saveChangeTeacherProfile($TID)
+	public function savechangeteacherprofile($TID)
 	{
 		//$this->chkData($_POST);
 		// change the (1) password and the (2)picture of the teacher

@@ -1,6 +1,6 @@
 <?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 
-class AdminUtility extends CI_Controller {
+class Adminutility extends CI_Controller {
 
 	private $tblAdmin = 'tbadmin';
 	private $crntAdmin;
@@ -46,7 +46,7 @@ class AdminUtility extends CI_Controller {
 	}
 
 //custom button active and inactive
-	public function labelCodition($status)
+	public function labelcodition($status)
 	{
 		if ($status === 'active') {
 			return '<center><span class="badge bg-green">Active</span></center>';
@@ -57,7 +57,7 @@ class AdminUtility extends CI_Controller {
 	}
 
 //get AdminAccount
-	public function getAdminAccount()
+	public function getadminaccount()
 	{
 		$Q = $this->db->get($this->tblAdmin);
 		$result = $Q->result_array();
@@ -107,7 +107,7 @@ class AdminUtility extends CI_Controller {
 	}
 
 //save Admin
-	public function saveAdmin()
+	public function saveadmin()
 	{
 		$Q = $this->db->insert($this->tblAdmin, $_POST);
 
@@ -120,7 +120,7 @@ class AdminUtility extends CI_Controller {
 	}
 
 // changing the status of admin
-	public function changeStatusAdmin($adminusrname, $crntstat)
+	public function changestatusadmin($adminusrname, $crntstat)
 	{
 		if ($crntstat == 'active') {
 			 $sqlUpdateStatus = "UPDATE `tbadmin` SET `status`=(?) WHERE `UserName`=(?)";
@@ -137,7 +137,7 @@ class AdminUtility extends CI_Controller {
 
 
 
-	public function changeAdminPass($usrname, $newPass)
+	public function changeadminpass($usrname, $newPass)
 	{
 		$updatePassAdmin = "UPDATE `tbadmin` SET `Password`=(?) WHERE `UserName` = (?)";
 

@@ -81,6 +81,8 @@
     //cache
     var $table_striped = $("table.table-striped");
     var $assigForm = $("form#assigForm");
+    var $Modal = $("#myModal");
+
     var url;
     var col = `
             <tr>
@@ -93,7 +95,7 @@
         function getAssigDat(){
 
             // upgrade the ajax loader
-            url = "<?= site_url('index.php/AdminAssignatory/getAssigDat'); ?>";
+            url = "<?= site_url('index.php/adminassignatory/getassigdat'); ?>";
             $.get(url, function(data){
 
                 data = $.parseJSON(data);
@@ -124,7 +126,7 @@
         function saveData(){
 
             //always check the URL
-            url = "<?= site_url('index.php/AdminAssignatory/createAssig'); ?>";
+            url = "<?= site_url('index.php/adminassignatory/createassig'); ?>";
             var frmData = $assigForm.serializeArray();
 
            // console.log(frmData);
@@ -140,6 +142,7 @@
                         $assigForm[0].reset();
                         alert('Record Inserted');
                         getAssigDat();
+                        $Modal.modal('hide');
                     }
                 },
                 error:function(reQuest, errType, errMsg){
@@ -161,7 +164,7 @@
             $table_striped.on('click', 'button.btn-danger', function(){
                 var $prnt = $(this).closest('tr');
                 var code = $prnt.find('td#code').text();
-                url = "<?= site_url('index.php/AdminAssignatory/delAssig'); ?>/"+code;
+                url = "<?= site_url('index.php/adminassignatory/delassig'); ?>/"+code;
                 
                 if (confirm("Are you sure to delete record?")) {
                     $.get(url, function(res){

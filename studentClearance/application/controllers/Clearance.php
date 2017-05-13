@@ -28,7 +28,7 @@ class Clearance extends CI_Controller {
 	}
 
 //get student list using secCOde
-	public function getStudentList($secCode)
+	public function getstudentlist($secCode)
 	{
 		$fsecCode = urldecode($secCode);
 		$sql = "call getSectionStudents(?)";
@@ -63,7 +63,7 @@ class Clearance extends CI_Controller {
 	}
 
 // get the current remarks of student @sec, @LRN
-	public function getStudRemarks($secCode, $studId)
+	public function getstudremarks($secCode, $studId)
 	{
         $codition = array(
         		'section_code' => $secCode,
@@ -75,7 +75,7 @@ class Clearance extends CI_Controller {
 
 // Student NAme | Category | Remarks // get all the student that currently listed in 
 // this subject in this section
-	public function getSubRemarks($secCode, $subCode)
+	public function getsubremarks($secCode, $subCode)
 	{
 		$sql = "call getSectionSubjectStuds(?, ?)";
 		$Q = $this->db->query($sql, [$secCode, $subCode]);
@@ -84,7 +84,7 @@ class Clearance extends CI_Controller {
 	}
 
 //getting subject of the sec
-	public function getSubSec($secCode)
+	public function getsubsec($secCode)
 	{
 		$fsecCode = urldecode($secCode);
 		$Q = $this->db->get_where($this->secSub, array('Section_code' => $fsecCode));
@@ -92,7 +92,7 @@ class Clearance extends CI_Controller {
 	}
 
 // saving the data clearance
-	public function saveStudRemarks($secCode, $LRN_Number, $Subject_Signatory_Code, $newStatus)
+	public function savestudremarks($secCode, $LRN_Number, $Subject_Signatory_Code, $newStatus)
 	{
 		// update the tbstudent_subject with the data of the parameters 
 		$conditon = array(
@@ -109,7 +109,7 @@ class Clearance extends CI_Controller {
 	}
 
 // change the student remarks
-	public function getJStatusRemarks($mthod)
+	public function getjstatusremarks($mthod)
 	{
 		
 		//remarks using student LRN 

@@ -33,7 +33,7 @@ class Student extends CI_Controller {
 	}
 
 // get student Dat
-	public function crntStudDat($LRN)
+	public function crntstuddat($LRN)
 	{
 			 $this->db->select(['Section_Code', 'Last_Name', 'First_Name']);
 		$Q = $this->db->get_where($this->tblStudent, array('LRN_Number' => $LRN));
@@ -42,7 +42,7 @@ class Student extends CI_Controller {
 	}
 
 // getSubjects Remarks By
-	public function getSub_Remarks($LRN, $secCode)
+	public function getsub_remarks($LRN, $secCode)
 	{
 		$remarksTBl = 'tbstudent_subject';
 		$Q = $this->db->get_where($remarksTBl, array('LRN_Number' => $LRN, 'Section_Code' => $secCode));

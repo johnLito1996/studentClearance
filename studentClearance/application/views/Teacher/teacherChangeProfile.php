@@ -170,7 +170,7 @@
 
 
         function getTeacherDatProfile(){
-            url = "<?= site_url('index.php/Teacher/crntLoginTeachDAt') ?>/"+crntTeachID;
+            url = "<?= site_url('index.php/teacher/crntloginteachdat') ?>/"+crntTeachID;
             $.get(url, function(tDat){
                 tDat = $.parseJSON(tDat);
 
@@ -212,7 +212,7 @@
             if ($oldPass.val() === oldPass) {
               if ($newPass.val() === $confirmPass.val()) {
 
-                url = "<?= site_url('index.php/Teacher/saveChangeTeacherProfile') ?>/"+crntTeachID;
+                url = "<?= site_url('index.php/teacher/savechangeteacherprofile') ?>/"+crntTeachID;
                 $.ajax({
                   url: url,
                   type: 'POST',
@@ -224,7 +224,7 @@
                   //data = $.parseJSON(data);
                   if (data.status) {
                     alert('Teacher Password Change');
-                    url = "<?= site_url('index.php/Login'); ?>";
+                    url = "<?= site_url('index.php/login'); ?>";
                     window.location.href = url;
                   }
                 })

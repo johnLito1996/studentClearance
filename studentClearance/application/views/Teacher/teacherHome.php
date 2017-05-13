@@ -6,8 +6,8 @@
 	<?php include_once('static/head.php'); ?>
 	
     <!-- datatables css -->
-    <link rel="stylesheet" type="text/css" href="<?= base_url('assets/custom/datatablesNew/css/dataTables.bootstrap.css'); ?>">
-    <link rel="stylesheet" type="text/css" href="<?= base_url('assets/custom/datatablesNew/css/jquery.dataTables.min.css'); ?>">
+    <link rel="stylesheet" type="text/css" href="<?= base_url('assets/custom/datatablesNew/css/datatables.bootstrap.css'); ?>">
+    <link rel="stylesheet" type="text/css" href="<?= base_url('assets/custom/datatablesNew/css/jquery.datatables.min.css'); ?>">
 
     <!-- custom css -->
     <link rel="stylesheet" type="text/css" href="<?= base_url('assets/template/css/custom/teacher.css'); ?>">
@@ -146,10 +146,10 @@
 	<?php include_once('static/foot.php') ?>
 
     <!-- datatables js -->
-    <script src="<?= base_url('assets/custom/datatablesNew/js/jquery.dataTables.min.js'); ?>"></script>
-    <script src="<?= base_url('assets/custom/datatablesNew/js/dataTables.bootstrap.js'); ?>"></script>
+    <script src="<?= base_url('assets/custom/datatablesNew/js/jquery.datatables.min.js'); ?>"></script>
+    <script src="<?= base_url('assets/custom/datatablesNew/js/datatables.bootstrap.js'); ?>"></script>
 
     <?php include('home/home_js.php'); ?>
-    <?php include('clearance/sectionRemarks_JS.php'); ?>
+    <?php include('clearance/sectionremarks_js.php'); ?>
 </body>
 </html>

@@ -76,7 +76,7 @@
     	$("select#secSubs").empty();
     	$("#btnSecSubs").attr('disabled', 'true');
     	$("#lblSearch").text('Subject Name:');
-    	url = "<?= site_url('index.php/Clearance/getSubSec') ?>/"+$secCode;
+    	url = "<?= site_url('index.php/clearance/getsubsec') ?>/"+$secCode;
 		$.get(url, function(data){
 			//console.log(data);
 
@@ -122,7 +122,7 @@
         //alert(crntSecCode);
         //return;
         //secClearance(crntSecCode);
-        var url = "<?= site_url('index.php/Clearance/getStudentList') ?>/"+crntSecCode;
+        var url = "<?= site_url('index.php/clearance/getstudentlist') ?>/"+crntSecCode;
       
         $.ajax({
                 url: url,
@@ -211,7 +211,7 @@
     	
     	//console.log(fJsonOut);
 
-    	url = "<?= site_url('index.php/Clearance/getJStatusRemarks') ?>/"+searchMethod;
+    	url = "<?= site_url('index.php/clearance/getjstatusremarks') ?>/"+searchMethod;
     	$.ajax({
     		url: url,
     		type: 'POST',
@@ -247,7 +247,7 @@
     		evt.preventDefault();
     		var secName = $("b#secName").text();
     		var secLrn = $("select#secStuds").val();
-    		var url = "<?= site_url('index.php/Clearance/getStudRemarks')?>/"+secName+"/"+secLrn;
+    		var url = "<?= site_url('index.php/clearance/getstudremarks')?>/"+secName+"/"+secLrn;
 	    	var respTable;
 
 	    		$stuRemarks.empty();
@@ -282,7 +282,7 @@
 
 				var ctr;
 				var subject = $("select#secSubs").val();
-				url = "<?= site_url('index.php/Clearance/getSubRemarks')?>/"+$secCode+"/"+subject;
+				url = "<?= site_url('index.php/clearance/getsubremarks')?>/"+$secCode+"/"+subject;
 				
 				var Lrn; 
 				var lngth;
