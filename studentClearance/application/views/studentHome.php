@@ -49,11 +49,11 @@
 
                                         <tbody id="remarksTBody">
                                         <tr>
-                                            <td>1.</td>
-                                            <td>ENG-01</td>
-                                            <td>SUBJECT</td>
+                                            <td>#</td>
+                                            <td>No Data</td>
+                                            <td>No Data</td>
                                             <td>
-                                            <span class="label label-success">OK</span>
+                                            <!-- <span class="label label-success">OK</span> -->
                                             </td>
                                         </tr>
                                         </tbody>
@@ -117,9 +117,17 @@ var section;
 
   function getStudentData(){
     url = "<?= site_url('index.php/Student/crntStudDat') ?>/"+LRN;
+   // alert(LRN);
     $.get(url, function(data){
       data = $.parseJSON(data);
-      //console.log(data);
+
+      var resultCtr = data.studDat.length;
+
+      if(resultCtr === 0){
+
+        alert('Student is Un enrolled');
+      }
+      else{
       var ref = data.studDat[0];
       var studName = ref.Last_Name+", "+ref.First_Name;
       $("#teacherName").text(studName);
@@ -129,6 +137,7 @@ var section;
       $("#secName").text(section);
 
       getStudRemarks(LRN, section);
+      }
     });
   }
 

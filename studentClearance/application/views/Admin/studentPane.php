@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title> Admin | Section </title>
+    <title> Admin | Student </title>
   <?php include_once('static/head.php'); ?>
   
   <!-- custom datatables -->

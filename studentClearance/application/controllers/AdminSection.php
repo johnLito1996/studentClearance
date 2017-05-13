@@ -65,6 +65,8 @@ class AdminSection extends CI_Controller {
 	public function ajax_sec_list(){
 
 		$list = $this->thisModel2->get_dTables_sec();
+
+		$list = $this->thisModel2->get_dTables_sec();
 		$data = array();
 /*		$no = $_POST['start'];
 */
@@ -171,7 +173,7 @@ class AdminSection extends CI_Controller {
 
 				// insert the each index in the tbsubject_section
 				$tbSecSubjectsDat = array(
-						'Section_code' => strtoupper($_POST['Section_code']),
+						'Section_code' => str_replace(' ', '_',strtoupper($_POST['Section_code'])),
 						'Teacher_ID' => $_POST['Adviser'],
 						'Subject_Code' => $subjects[$i]
 

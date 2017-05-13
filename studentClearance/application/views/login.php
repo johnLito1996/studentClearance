@@ -62,8 +62,9 @@
                            <div class="panel">
 
                                 <div class="panel-body">
-                                    <div class="col-md-offset-4 col-lg-offset-4"> <img src="<?= base_url($scPic); ?>"></div>
-                                    <form class="form-horizontal  col-lg-offset-3 col-md-offset-3" role="form" id="frmLogin">
+                                    <div class="col-md-offset-3 col-lg-offset-3"> <img src="<?= base_url($scPic); ?>" style="margin-left: 47px;">
+                                    </div>
+                                    <form class="form-horizontal  col-lg-offset-2 col-md-offset-2 col-sm-12" role="form" id="frmLogin">
                                       <div class="form-group" id="usrNamePrt">
                                           <label class="col-lg-2 col-sm-2 control-label">Username</label>
                                           <div class="col-lg-5">

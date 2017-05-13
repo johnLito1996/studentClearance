@@ -55,8 +55,20 @@ class Teacher extends CI_Controller {
 		//$Q = $this->db->get('tbsection_query'); 
 		$result = $Q->result();
 		
-		$data;
-		if ($Q->num_rows != 0) {
+
+		if ($Q->num_rows() === 0) {
+
+			echo '{
+			    "sEcho": 1,
+			    "iTotalRecords": "0",
+			    "iTotalDisplayRecords": "0",
+			    "aaData": []
+			}';
+
+		}
+		else{
+			
+			$data = [];
 			foreach ($result as $row) {
 			$secCode = $row->Section_code; 
 			$teachId = $tID;
@@ -69,14 +81,6 @@ class Teacher extends CI_Controller {
                 $data[] = $row;
              }
 			echo json_encode(['data' => $data]);
-		}
-		else{
-			echo '{
-			    "sEcho": 1,
-			    "iTotalRecords": "0",
-			    "iTotalDisplayRecords": "0",
-			    "aaData": []
-			}';
 		}
 		
 		

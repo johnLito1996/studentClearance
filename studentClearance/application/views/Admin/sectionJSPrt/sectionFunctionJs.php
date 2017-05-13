@@ -116,14 +116,12 @@
                   <tr>
                     <td>`+data[i].Subject_Code+`</td>
                     <td>`+fName+`</td>
+                    <td>
+                    <center> X </center>
+                    </td>
                   </tr>
                   `;
 
-                  /*
-    <td>
-                    <button type="button" class="btn btn-danger customBtn" id="removeSub"> <span class="fa fa-times"></span> Remove </button>
-                    </td>
-                  */
                   $TblsecSub.find('tbody').append(tblSecSubList);
 
                   console.log(data[i].Subject_Code + "index of " + i);
@@ -243,6 +241,7 @@
                 $FormSec[0].reset();
                 tblSecReload();
                 $("#secSubTbody").empty();
+                $Modal.modal('hide');
               }
               
             });
@@ -265,6 +264,7 @@
                 $FormSec[0].reset();
                 tblSecReload();
                 $("#secSubTbody").empty();
+                $Modal.modal('hide');
             })
             .fail(function() {
                 console.log("error");
